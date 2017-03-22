@@ -9,6 +9,7 @@
 import UIKit
 import GPUImage
 import SVProgressHUD
+import Photos
 
 class CameraController: UIViewController {
 
@@ -127,19 +128,93 @@ class CameraController: UIViewController {
     
     func takePhotoSave() {
         
-        UIImageWriteToSavedPhotosAlbum((takePhotoImg?.image)!, self, #selector(didFinishSaving(image:error:contextInfo:)), nil)
+        let lastStatus = PHPhotoLibrary.authorizationStatus()
+        PHPhotoLibrary.requestAuthorization { (status) in
+            //回到主线程
+            DispatchQueue.main.async {
+                if status == PHAuthorizationStatus.denied {
+                    if lastStatus == PHAuthorizationStatus.notDetermined {
+                    
+                        SVProgressHUD.showError(withStatus: "保存失败")
+                        return
+                    }
+                    SVProgressHUD.showError(withStatus: "失败！请在系统设置中开启访问相册权限")
+                } else if status == PHAuthorizationStatus.authorized {
+                    self.saveImageToCustomAblum()
+                } else if status == PHAuthorizationStatus.restricted {
+                    SVProgressHUD.showError(withStatus: "系统原因，无法访问相册")
+                }
+            }
+        }
     }
-    @objc func didFinishSaving(image: UIImage, error:Error?, contextInfo: AnyObject) {
-        
-        if error != nil {
+    
+    func saveImageToCustomAblum() {
+        guard let assets = asyncSaveImageWithPhotos() else {
             SVProgressHUD.showError(withStatus: "保存失败")
             return
         }
-        self.takePhotoImg?.isHidden = true
-        self.takePhotoImg?.removeFromSuperview()
-        SVProgressHUD.showSuccess(withStatus: "保存成功")
+        guard let assetCollection = getAssetCollectionWithAppNameAndCreateIfNo()
+        else {
+            SVProgressHUD.showError(withStatus: "相册创建失败")
+            return
+        }
+        PHPhotoLibrary.shared().performChanges({ 
+            
+            let collectionChangeRequest = PHAssetCollectionChangeRequest(for: assetCollection)
+            collectionChangeRequest?.insertAssets(assets, at: IndexSet(integer: 0))
+        }) { (success, error) in
+            
+            if success {
+                SVProgressHUD.showSuccess(withStatus: "保存成功")
+                DispatchQueue.main.async {
+                    
+                    self.takePhotoImg?.isHidden = true
+                    self.takePhotoImg?.removeFromSuperview()
+                }
+            } else {
+                SVProgressHUD.showError(withStatus: "保存失败")
+            }
+        }
+        
+        
     }
-    
+    //同步方式保存图片到系统的相机胶卷中---返回的是当前保存成功后相册图片对象集合
+    func asyncSaveImageWithPhotos() -> PHFetchResult<PHAsset>? {
+        
+        var createdAssetID = ""
+        let error: ()? = try? PHPhotoLibrary.shared().performChangesAndWait {
+            createdAssetID = (PHAssetChangeRequest.creationRequestForAsset(from: (self.takePhotoImg?.image)!).placeholderForCreatedAsset?.localIdentifier)!
+        }
+        if error == nil {
+            SVProgressHUD.showError(withStatus: "保存失败")
+            return nil
+        } else {
+            SVProgressHUD.showSuccess(withStatus: "保存成功")
+            return PHAsset.fetchAssets(withLocalIdentifiers: [createdAssetID], options: nil)
+        }
+        
+    }
+    //拥有与 APP 同名的自定义相册--如果没有则创建
+    func getAssetCollectionWithAppNameAndCreateIfNo() -> PHAssetCollection? {
+        let title = Bundle.main.infoDictionary?[String(kCFBundleNameKey)] as? String
+        let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
+        for i in 0..<collections.count {
+            if title == collections[i].localizedTitle {
+                return collections[i]
+            }
+        }
+        var createID = ""
+        let error: ()? = try? PHPhotoLibrary.shared().performChangesAndWait {
+            let request = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: title!)
+            createID = request.placeholderForCreatedAssetCollection.localIdentifier
+        }
+        if error == nil {
+            return nil
+        } else {
+            return PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [createID], options: nil).firstObject!
+        }
+    }
+   
     func takePhotoCancel() {
         
         self.takePhotoImg?.isHidden = true
