@@ -1,0 +1,489 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B70AC66B1E76DD84007AC25C /* PhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70AC66A1E76DD84007AC25C /* PhotosController.swift */; };
+		B70AC6711E76E6BC007AC25C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70AC6701E76E6BC007AC25C /* UIImage+Extension.swift */; };
+		B70AC6731E76E88E007AC25C /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70AC6721E76E88E007AC25C /* Common.swift */; };
+		B70AC6771E826F7A007AC25C /* LJBAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70AC6761E826F7A007AC25C /* LJBAlertView.swift */; };
+		B7A579991E61A2A300326000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A579981E61A2A300326000 /* AppDelegate.swift */; };
+		B7A5799B1E61A2A300326000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A5799A1E61A2A300326000 /* ViewController.swift */; };
+		B7A5799E1E61A2A300326000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7A5799C1E61A2A300326000 /* Main.storyboard */; };
+		B7A579A01E61A2A300326000 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7A5799F1E61A2A300326000 /* Assets.xcassets */; };
+		B7A579A31E61A2A300326000 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7A579A11E61A2A300326000 /* LaunchScreen.storyboard */; };
+		B7A579AF1E62729200326000 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A579AE1E62729200326000 /* CameraController.swift */; };
+		D19491B0D2685A1DFAAFD94D /* Pods_liubai.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59739F52DDC45133FCB940 /* Pods_liubai.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B70AC66A1E76DD84007AC25C /* PhotosController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosController.swift; sourceTree = "<group>"; };
+		B70AC6701E76E6BC007AC25C /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		B70AC6721E76E88E007AC25C /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		B70AC6761E826F7A007AC25C /* LJBAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJBAlertView.swift; sourceTree = "<group>"; };
+		B7A579951E61A2A300326000 /* liubai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = liubai.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7A579981E61A2A300326000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B7A5799A1E61A2A300326000 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B7A5799D1E61A2A300326000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B7A5799F1E61A2A300326000 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B7A579A21E61A2A300326000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B7A579A41E61A2A300326000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B7A579AE1E62729200326000 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		BDF2DC40FD7BACA7C2DDF64B /* Pods-liubai.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-liubai.debug.xcconfig"; path = "Pods/Target Support Files/Pods-liubai/Pods-liubai.debug.xcconfig"; sourceTree = "<group>"; };
+		C0F471D23F4E1A48CC04C302 /* Pods-liubai.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-liubai.release.xcconfig"; path = "Pods/Target Support Files/Pods-liubai/Pods-liubai.release.xcconfig"; sourceTree = "<group>"; };
+		DA59739F52DDC45133FCB940 /* Pods_liubai.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_liubai.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B7A579921E61A2A300326000 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D19491B0D2685A1DFAAFD94D /* Pods_liubai.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8A5371404AD74BEF79E78448 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA59739F52DDC45133FCB940 /* Pods_liubai.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B70AC6681E76DD0D007AC25C /* Photos(相册) */ = {
+			isa = PBXGroup;
+			children = (
+				B70AC6691E76DD0D007AC25C /* controller */,
+			);
+			name = "Photos(相册)";
+			path = Photos;
+			sourceTree = "<group>";
+		};
+		B70AC6691E76DD0D007AC25C /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				B70AC66A1E76DD84007AC25C /* PhotosController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		B70AC66E1E76E656007AC25C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B70AC6721E76E88E007AC25C /* Common.swift */,
+				B70AC6761E826F7A007AC25C /* LJBAlertView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		B70AC66F1E76E656007AC25C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B70AC6701E76E6BC007AC25C /* UIImage+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		B7A5798C1E61A2A300326000 = {
+			isa = PBXGroup;
+			children = (
+				B7A579971E61A2A300326000 /* liubai */,
+				B7A579961E61A2A300326000 /* Products */,
+				EBD1ED41EFD76770B283F00B /* Pods */,
+				8A5371404AD74BEF79E78448 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		B7A579961E61A2A300326000 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B7A579951E61A2A300326000 /* liubai.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B7A579971E61A2A300326000 /* liubai */ = {
+			isa = PBXGroup;
+			children = (
+				B7A579981E61A2A300326000 /* AppDelegate.swift */,
+				B7A5799A1E61A2A300326000 /* ViewController.swift */,
+				B7A5799C1E61A2A300326000 /* Main.storyboard */,
+				B7A579AA1E62724700326000 /* Camera(打开照相机) */,
+				B70AC6681E76DD0D007AC25C /* Photos(相册) */,
+				B7A579AD1E62724D00326000 /* Tools */,
+				B7A5799F1E61A2A300326000 /* Assets.xcassets */,
+				B7A579A11E61A2A300326000 /* LaunchScreen.storyboard */,
+				B7A579A41E61A2A300326000 /* Info.plist */,
+			);
+			path = liubai;
+			sourceTree = "<group>";
+		};
+		B7A579AA1E62724700326000 /* Camera(打开照相机) */ = {
+			isa = PBXGroup;
+			children = (
+				B7A579AC1E62724700326000 /* ViewController */,
+				B7A579AB1E62724700326000 /* View */,
+				B7A579B01E629C6300326000 /* Model */,
+			);
+			name = "Camera(打开照相机)";
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		B7A579AB1E62724700326000 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B7A579AC1E62724700326000 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B7A579AE1E62729200326000 /* CameraController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B7A579AD1E62724D00326000 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				B70AC66E1E76E656007AC25C /* Common */,
+				B70AC66F1E76E656007AC25C /* Extension */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		B7A579B01E629C6300326000 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EBD1ED41EFD76770B283F00B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BDF2DC40FD7BACA7C2DDF64B /* Pods-liubai.debug.xcconfig */,
+				C0F471D23F4E1A48CC04C302 /* Pods-liubai.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B7A579941E61A2A300326000 /* liubai */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7A579A71E61A2A300326000 /* Build configuration list for PBXNativeTarget "liubai" */;
+			buildPhases = (
+				401C6CDE469C62BC51B2D97E /* [CP] Check Pods Manifest.lock */,
+				B7A579911E61A2A300326000 /* Sources */,
+				B7A579921E61A2A300326000 /* Frameworks */,
+				B7A579931E61A2A300326000 /* Resources */,
+				83FCC581E8031E0054B1BA3A /* [CP] Embed Pods Frameworks */,
+				A9D574C5F2DF40A367D4B136 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = liubai;
+			productName = liubai;
+			productReference = B7A579951E61A2A300326000 /* liubai.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B7A5798D1E61A2A300326000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = lijiangbo;
+				TargetAttributes = {
+					B7A579941E61A2A300326000 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 47W28PSMV7;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = B7A579901E61A2A300326000 /* Build configuration list for PBXProject "liubai" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B7A5798C1E61A2A300326000;
+			productRefGroup = B7A579961E61A2A300326000 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B7A579941E61A2A300326000 /* liubai */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B7A579931E61A2A300326000 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7A579A31E61A2A300326000 /* LaunchScreen.storyboard in Resources */,
+				B7A579A01E61A2A300326000 /* Assets.xcassets in Resources */,
+				B7A5799E1E61A2A300326000 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		401C6CDE469C62BC51B2D97E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		83FCC581E8031E0054B1BA3A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-liubai/Pods-liubai-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9D574C5F2DF40A367D4B136 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-liubai/Pods-liubai-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B7A579911E61A2A300326000 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7A579AF1E62729200326000 /* CameraController.swift in Sources */,
+				B70AC66B1E76DD84007AC25C /* PhotosController.swift in Sources */,
+				B70AC6711E76E6BC007AC25C /* UIImage+Extension.swift in Sources */,
+				B7A5799B1E61A2A300326000 /* ViewController.swift in Sources */,
+				B7A579991E61A2A300326000 /* AppDelegate.swift in Sources */,
+				B70AC6771E826F7A007AC25C /* LJBAlertView.swift in Sources */,
+				B70AC6731E76E88E007AC25C /* Common.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B7A5799C1E61A2A300326000 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B7A5799D1E61A2A300326000 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B7A579A11E61A2A300326000 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B7A579A21E61A2A300326000 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B7A579A51E61A2A300326000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B7A579A61E61A2A300326000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B7A579A81E61A2A300326000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF2DC40FD7BACA7C2DDF64B /* Pods-liubai.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 47W28PSMV7;
+				INFOPLIST_FILE = liubai/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cn.lijiangbo.liubai;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9b2c5087-b123-414c-b705-21acb1a124b4";
+				PROVISIONING_PROFILE_SPECIFIER = lijiangbotest;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		B7A579A91E61A2A300326000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0F471D23F4E1A48CC04C302 /* Pods-liubai.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 47W28PSMV7;
+				INFOPLIST_FILE = liubai/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cn.lijiangbo.liubai;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9b2c5087-b123-414c-b705-21acb1a124b4";
+				PROVISIONING_PROFILE_SPECIFIER = lijiangbotest;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B7A579901E61A2A300326000 /* Build configuration list for PBXProject "liubai" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7A579A51E61A2A300326000 /* Debug */,
+				B7A579A61E61A2A300326000 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7A579A71E61A2A300326000 /* Build configuration list for PBXNativeTarget "liubai" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7A579A81E61A2A300326000 /* Debug */,
+				B7A579A91E61A2A300326000 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B7A5798D1E61A2A300326000 /* Project object */;
+}
