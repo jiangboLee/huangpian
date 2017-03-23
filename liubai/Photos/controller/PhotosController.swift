@@ -15,12 +15,14 @@ class PhotosController: UIViewController {
     var chooseImage: UIImage?
     var imgView: UIImageView = UIImageView()
         
-    
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         let imageView = UIImageView(frame: CGRect(x: (SCREENW - (chooseImage?.size.width)!)/2, y: 0, width: (chooseImage?.size.width)!, height: (chooseImage?.size.height)!))
         imageView.image = chooseImage
@@ -46,8 +48,9 @@ class PhotosController: UIViewController {
         button2.snp.makeConstraints { (make) in
             make.right.bottom.equalTo(self.view)
         }
-  
+
     }
+    
     func clickButton1() {
         //设置滤镜效果
         let passthroughFilter = GPUImageGaussianBlurFilter()

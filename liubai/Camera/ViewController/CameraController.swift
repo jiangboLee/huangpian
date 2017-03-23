@@ -30,7 +30,10 @@ class CameraController: UIViewController {
     var beginScale: CGFloat = 1.0
     var endScale: CGFloat = 1.0
     var takePhotoImg: UIImageView?
-    
+    //相册属性
+    fileprivate var AlbumItems: [AlbumItem] = [] // 相册列表
+    fileprivate var imageManager: PHCachingImageManager! //带缓存的图片管理对象
+    var albumitemsCount = 0
     
     
     override func viewDidLoad() {
@@ -114,7 +117,112 @@ class CameraController: UIViewController {
         }
         takePhoto_Cancel.addTarget(self, action: #selector(takePhotoCancel), for: .touchUpInside)
         
+        let allPhotoesButton = UIButton(type: .custom)
+        allPhotoesButton.setTitle("相册", for: .normal)
+        allPhotoesButton.setTitleColor(UIColor.brown, for: .normal)
+        view.addSubview(allPhotoesButton)
+        allPhotoesButton.snp.makeConstraints { (make) in
+            make.top.equalTo(takePhoto_Cancel.snp.bottom)
+            make.right.equalTo(view)
+        }
+        allPhotoesButton.addTarget(self, action: #selector(openAllPhotoes), for: .touchUpInside)
+        
     }
+    
+    //MARK: 打开相簿
+    func openAllPhotoes() {
+        
+        let size = AllPhotoesFlowLayout().itemSize
+        let itemArr = getAlbumItem()
+        let result = itemArr.first?.fetchResult
+        albumitemsCount = 0
+        getAlbumItemFetchResults(assetsFetchResults: result!, thumbnailSize: size) { (imageArr,assets) in
+            
+            let allPhotoesVC = AllPhotosController()
+            allPhotoesVC.imageArr = imageArr
+            allPhotoesVC.assets = assets
+            allPhotoesVC.imgArrAdd = {
+                
+                self.fetchImage(assetsFetchResults: result!, thumbnailSize: size) { (imageArr,assets) in
+                    allPhotoesVC.imageArr += imageArr
+                    allPhotoesVC.assets? += assets
+                }
+            }
+            self.present(allPhotoesVC, animated: true, completion: nil)
+        }
+        
+        
+    }
+    // MARK: - 获取指定的相册缩略图列表
+    func getAlbumItemFetchResults(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ result: [UIImage], _ assets: [PHAsset]) -> ()) {
+        
+        cachingImageManager()
+        fetchImage(assetsFetchResults: assetsFetchResults, thumbnailSize: thumbnailSize) { (imageArr,assets) in
+            finishedCallBack(imageArr,assets)
+        }
+    }
+    //缓存管理
+    fileprivate func cachingImageManager() {
+        
+        imageManager = PHCachingImageManager()
+        imageManager.stopCachingImagesForAllAssets()
+    }
+    //获取图片
+    fileprivate func fetchImage(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ imageArr: [UIImage], _ assets: [PHAsset]) -> () ) {
+    
+        var imageArr: [UIImage] = []
+        var assets: [PHAsset] = []
+        if albumitemsCount < assetsFetchResults.count {
+            albumitemsCount += 60
+        }
+        if albumitemsCount >= assetsFetchResults.count {
+            albumitemsCount = assetsFetchResults.count
+        }
+        
+        for i in (albumitemsCount - 60)..<albumitemsCount {
+            let asset = assetsFetchResults[i]
+            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
+                imageArr.append(image!)
+                assets.append(asset)
+                if i == self.albumitemsCount - 1 {
+                    finishedCallBack(imageArr, assets)
+                }
+            })
+        }
+    }
+    
+    // MARK: - 获取相册列表
+    func getAlbumItem() -> [AlbumItem] {
+        AlbumItems.removeAll()
+        let smartOptions = PHFetchOptions()
+        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: smartOptions)
+        self.convertCollection(smartAlbums as! PHFetchResult<AnyObject>)
+        
+        let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
+        convertCollection(userCollections as! PHFetchResult<AnyObject>)
+        //相册按包含的照片数量排序（降序）
+        AlbumItems.sort { (item1, item2) -> Bool in
+            return item1.fetchResult.count > item2.fetchResult.count
+        }
+        return AlbumItems
+    }
+    //转化处理获取到的相簿
+    private func convertCollection(_ collection: PHFetchResult<AnyObject>) {
+        
+        for i in 0..<collection.count {
+            let resultsOptions = PHFetchOptions()
+            resultsOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            resultsOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+            guard let c = collection[i] as? PHAssetCollection else { return  }
+            let assetsFetchResult = PHAsset.fetchAssets(in: c, options: resultsOptions)
+            //没有图片的空相簿不显示
+            if assetsFetchResult.count > 0 {
+                AlbumItems.append(AlbumItem(title: c.localizedTitle, fetchResult: assetsFetchResult))
+            }
+            
+        }
+    }
+    
     //MARK: 拍照
     func takePhoto() {
         videoCamera.capturePhotoAsImageProcessedUp(toFilter: filter) { (photo: UIImage?, error: Error?) in
@@ -380,6 +488,10 @@ class CameraController: UIViewController {
         videoCamera.startCapture()
     }
     
+    deinit {
+        cachingImageManager()
+        AlbumItems = []
+    }
 
 }
 
@@ -406,5 +518,17 @@ extension CameraController: CAAnimationDelegate {
         
         filterVideoView?.isUserInteractionEnabled = true
         focusLayer?.isHidden = true
+    }
+}
+
+// MARK:- =============相册
+class AlbumItem {
+    //相簿名称
+    var title: String?
+    //相簿内资源
+    var fetchResult: PHFetchResult<PHAsset>
+    init(title: String?, fetchResult: PHFetchResult<PHAsset>) {
+        self.title = title
+        self.fetchResult = fetchResult
     }
 }
