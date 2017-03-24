@@ -36,6 +36,21 @@ class CameraController: UIViewController {
     lazy var imageManager = PHCachingImageManager()
     var albumitemsCount = 0
     
+    //滤镜视图
+    lazy var filterView: FilterCollectionView = {
+        let filterView = FilterCollectionView()
+        filterView.clickItem = { (i) in
+            
+            self.chooseFilter(i)
+        }
+        self.view.addSubview(filterView)
+        filterView.snp.makeConstraints({ (make) in
+            make.right.left.equalTo(self.view)
+            make.height.equalTo(100)
+            make.bottom.equalTo(self.view).offset(-100)
+        })
+        return filterView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +142,66 @@ class CameraController: UIViewController {
             make.right.equalTo(view)
         }
         allPhotoesButton.addTarget(self, action: #selector(openAllPhotoes), for: .touchUpInside)
+        //滤镜按钮
+        let filterButton = UIButton(type: .custom)
+        filterButton.setTitle("滤镜", for: .normal)
+        filterButton.setTitleColor(UIColor.brown, for: .normal)
+        view.addSubview(filterButton)
+        filterButton.snp.makeConstraints { (make) in
+            make.top.equalTo(allPhotoesButton.snp.bottom)
+            make.right.equalTo(view)
+        }
+        filterButton.addTarget(self, action: #selector(openFilters(button:)), for: .touchUpInside)
+    }
+    
+    //MARK: 点开滤镜
+    func openFilters(button: UIButton) {
+        button.isSelected = !button.isSelected
+        if button.isSelected {
+            
+            filterView.isHidden = false
+        } else {
         
+            filterView.isHidden = true
+        }
+    }
+    //选择滤镜
+    func chooseFilter(_ item: Int) {
+        
+        videoCamera.removeAllTargets()
+        switch item {
+        case 0:
+            filter = GPUImageFilter()
+            break
+        case 1:
+            filter = GPUImageFilter()
+            break
+        case 2:
+            filter = GPUImageSepiaFilter()
+            break
+        case 3:
+            filter = GPUImageHueFilter()
+            break
+        case 4:
+            filter = GPUImageSmoothToonFilter()
+            break
+        case 5:
+            filter = GPUImageSketchFilter()
+            break
+        case 6:
+            filter = GPUImageGlassSphereFilter()
+            break
+        case 7:
+            filter = GPUImageEmbossFilter()
+            break
+        case 8:
+            filter = GPUImageTiltShiftFilter()
+            break
+        default:
+            break
+        }
+        videoCamera.addTarget(filter as! GPUImageInput!)
+        filter?.addTarget(filterVideoView)
     }
     
     //MARK: 打开相簿

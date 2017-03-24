@@ -14,7 +14,24 @@ class PhotosController: UIViewController {
 
     var chooseImage: UIImage?
     var imgView: UIImageView = UIImageView()
-        
+    
+    //滤镜视图
+    lazy var filterView: FilterCollectionView = {
+        let filterView = FilterCollectionView()
+        filterView.clickItem = { (i) in
+            
+            self.chooseFilterClick(i)
+        }
+        self.view.addSubview(filterView)
+        filterView.snp.makeConstraints({ (make) in
+            make.right.left.equalTo(self.view)
+            make.height.equalTo(100)
+            make.bottom.equalTo(self.view).offset(-100)
+        })
+        return filterView
+    }()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -30,9 +47,9 @@ class PhotosController: UIViewController {
         imgView = imageView
         //按钮
         let button1 = UIButton(type: .custom)
-        button1.setTitle("效果1", for: .normal)
+        button1.setTitle("滤镜", for: .normal)
         button1.setTitleColor(UIColor.red, for: .normal)
-        button1.addTarget(self, action: #selector(clickButton1), for: .touchUpInside)
+        button1.addTarget(self, action: #selector(clickButton1(button:)), for: .touchUpInside)
         button1.sizeToFit()
         view.addSubview(button1)
         button1.snp.makeConstraints { (make) in
@@ -48,26 +65,80 @@ class PhotosController: UIViewController {
         button2.snp.makeConstraints { (make) in
             make.right.bottom.equalTo(self.view)
         }
+        
+        let saveButton = UIButton(type: .custom)
+        saveButton.setTitle("效果2", for: .normal)
+        saveButton.setTitleColor(UIColor.red, for: .normal)
+        saveButton.addTarget(self, action: #selector(savePhoto), for: .touchUpInside)
+        saveButton.sizeToFit()
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(self.view)
+            make.centerX.equalTo(self.view)
+        }
 
     }
     
-    func clickButton1() {
+    func clickButton1(button: UIButton) {
+        button.isSelected = !button.isSelected
+        if button.isSelected {
+            
+            filterView.isHidden = false
+        } else {
+            
+            filterView.isHidden = true
+        }
+    }
+    
+    func chooseFilterClick(_ item: Int) {
         //设置滤镜效果
-        let passthroughFilter = GPUImageGaussianBlurFilter()
+        var filter: GPUImageOutput! = GPUImageFilter()
+        switch item {
+        case 0:
+            filter = GPUImageFilter()
+            break
+        case 1:
+            filter = GPUImageFilter()
+            break
+        case 2:
+            filter = GPUImageSepiaFilter()
+            break
+        case 3:
+            filter = GPUImageHueFilter()
+            break
+        case 4:
+            filter = GPUImageSmoothToonFilter()
+            break
+        case 5:
+            filter = GPUImageSketchFilter()
+            break
+        case 6:
+            filter = GPUImageGlassSphereFilter()
+            break
+        case 7:
+            filter = GPUImageEmbossFilter()
+            break
+        case 8:
+            filter = GPUImageTiltShiftFilter()
+            break
+        default:
+            break
+        }
         //设置要渲染区域
-        passthroughFilter.forceProcessing(at: chooseImage!.size)
-        passthroughFilter.useNextFrameForImageCapture()
+        filter.forceProcessing(at: chooseImage!.size)
+        filter.useNextFrameForImageCapture()
         //设置数据源
         let stillImageSource = GPUImagePicture(image: chooseImage)
         //加上滤镜
-        stillImageSource?.addTarget(passthroughFilter)
+        stillImageSource?.addTarget(filter as! GPUImageInput!)
         //开始渲染
         stillImageSource?.processImage()
         //获取渲染后的图片
-        let newImage = passthroughFilter.imageFromCurrentFramebuffer()
+        let newImage = filter.imageFromCurrentFramebuffer()
         
         imgView.image = newImage
     }
+    
     func clickButton2() {
         //设置滤镜效果
         let passthroughFilter = GPUImageSketchFilter()
@@ -84,6 +155,19 @@ class PhotosController: UIViewController {
         let newImage = passthroughFilter.imageFromCurrentFramebuffer()
         
         imgView.image = newImage
+    }
+    //GPUImageSmoothToonFilter 卡通
+    //GPUImageSketchFilter 素描
+    //GPUImageGlassSphereFilter 水晶球效果
+    //GPUImageEmbossFilter 浮雕效果
+    //GPUImageTiltShiftFilter 上下模糊中间清晰
+    //GPUImageSepiaFilter 怀旧
+    //GPUImageHueFilter 绿巨人
+    
+    func savePhoto() {
+        let VC = CameraController()
+        VC.takePhotoImg = imgView
+        VC.takePhotoSave()        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
