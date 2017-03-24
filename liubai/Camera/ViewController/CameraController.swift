@@ -141,6 +141,7 @@ class CameraController: UIViewController {
             let allPhotoesVC = AllPhotosController()
             allPhotoesVC.imageArr = imageArr
             allPhotoesVC.assets = assets
+            allPhotoesVC.itemArr = itemArr
             allPhotoesVC.imgArrAdd = {
                 
                 self.fetchImage(assetsFetchResults: result!, thumbnailSize: size) { (imageArr,assets) in
@@ -148,13 +149,42 @@ class CameraController: UIViewController {
                     allPhotoesVC.assets? += assets
                 }
             }
+            allPhotoesVC.coverImg = {
+                
+                self.getAlbumCoverImg(itemArr, finishedCallBack: { (coverImgArr) in
+                    allPhotoesVC.coverImgArr = coverImgArr
+                })
+            }
+            allPhotoesVC.refreshAlbum = { (albumResult) in
+                self.albumitemsCount = 0
+                self.getAlbumItemFetchResults(assetsFetchResults: albumResult, thumbnailSize: size, finishedCallBack: { (imageArr, assets) in
+                    allPhotoesVC.imageArr = imageArr
+                    allPhotoesVC.assets = assets
+                })
+            }
             self.present(allPhotoesVC, animated: true, completion: nil)
         }
         
         
     }
+    //MARK: 获取所有相册首页
+    func getAlbumCoverImg(_ albumItems: [AlbumItem], finishedCallBack: @escaping (_ result: [UIImage])->()) {
+        
+        var coverImgArr: [UIImage] = []
+        for i in 0..<albumItems.count {
+            let album = albumItems[i]
+            cachingImageManager()
+            imageManager.requestImage(for: album.fetchResult[0], targetSize: CGSize(width: 56, height: 56), contentMode: .aspectFit, options: nil, resultHandler: { (image, _) in
+                
+                coverImgArr.append(image!)
+                if i == albumItems.count - 1 {
+                    finishedCallBack(coverImgArr)
+                }
+            })
+        }
+    }
     // MARK: - 获取指定的相册缩略图列表
-    func getAlbumItemFetchResults(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ result: [UIImage], _ assets: [PHAsset]) -> ()) {
+    private func getAlbumItemFetchResults(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ result: [UIImage], _ assets: [PHAsset]) -> ()) {
         
         cachingImageManager()
         fetchImage(assetsFetchResults: assetsFetchResults, thumbnailSize: thumbnailSize) { (imageArr,assets) in
@@ -172,14 +202,22 @@ class CameraController: UIViewController {
     
         var imageArr: [UIImage] = []
         var assets: [PHAsset] = []
+        var a = 0
+        if albumitemsCount == assetsFetchResults.count {
+            return
+        }
         if albumitemsCount < assetsFetchResults.count {
             albumitemsCount += 60
         }
-        if albumitemsCount >= assetsFetchResults.count {
+        if albumitemsCount > assetsFetchResults.count {
+            a = albumitemsCount - 60
+            if a < 0 {
+                a = 0
+            }
             albumitemsCount = assetsFetchResults.count
         }
         
-        for i in (albumitemsCount - 60)..<albumitemsCount {
+        for i in ((a > 0) ? (albumitemsCount-60) : a)..<albumitemsCount {
             let asset = assetsFetchResults[i]
             imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
                 imageArr.append(image!)

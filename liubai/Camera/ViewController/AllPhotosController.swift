@@ -13,6 +13,8 @@ import SVProgressHUD
 class AllPhotosController: UIViewController {
 
     let collectionCellID = "collectionCellID"
+    let tableView_CellID = "tableView_CellID"
+    
     var imageArr = [UIImage]() {
     
         didSet{
@@ -20,17 +22,38 @@ class AllPhotosController: UIViewController {
         }
     }
     var assets: [PHAsset]?
-    
     var photoesCollection: UICollectionView?
     var a: CGFloat = 0.1
-    
     var imgArrAdd: (()->())?
-    
+    var aboveView: UIView!
+    //相册集合
+    lazy var albumTableV: UITableView = {
+        let tableV = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tableV.delegate = self
+        tableV.dataSource = self
+        tableV.rowHeight = 60
+        return tableV
+    }()
+    var itemArr: [AlbumItem]? {
+        
+        didSet{
+            albumTableV.reloadData()
+        }
+    }
+    var coverImg: (()->())?
+    var coverImgArr = [UIImage]() {
+        
+        didSet {
+            albumTableV.reloadData()
+        }
+    }
+    //选取相册后重新刷新
+    var refreshAlbum: ((_ albumResult: PHFetchResult<PHAsset>)->())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        let aboveView = UIView()
+        aboveView = UIView()
         aboveView.backgroundColor = UIColor.red
         view.addSubview(aboveView)
         aboveView.snp.makeConstraints { (make) in
@@ -63,7 +86,7 @@ class AllPhotosController: UIViewController {
         
         let photoCollection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: AllPhotoesFlowLayout())
         photoCollection.backgroundColor = UIColor.white
-        view.addSubview(photoCollection)
+        view.insertSubview(photoCollection, belowSubview: aboveView)
         photoCollection.snp.makeConstraints { (make) in
             make.right.left.bottom.equalTo(view)
             make.top.equalTo(aboveView.snp.bottom)
@@ -73,6 +96,14 @@ class AllPhotosController: UIViewController {
         photoCollection.dataSource = self
         photoCollection.register(UINib(nibName: "AllPhotoCollectionCell", bundle: nil), forCellWithReuseIdentifier: collectionCellID)
         photoesCollection = photoCollection
+        
+        albumTableV.register(UINib(nibName: "AlbumTableCell", bundle: nil), forCellReuseIdentifier: tableView_CellID)
+        view.insertSubview(albumTableV, belowSubview: aboveView)
+        albumTableV.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view)
+            make.height.equalTo(SCREENH * 0.35)
+            make.bottom.equalTo(aboveView)
+        }
     }
     
     func backButtonClick() {
@@ -81,9 +112,16 @@ class AllPhotosController: UIViewController {
     }
     
     func chooseAlbumButtonClick() {
-        
+        coverImg?()
+        UIView.animate(withDuration: 0.8) {
+            
+            self.albumTableV.frame.origin.y = SCREENH * 0.1
+        }
     }
   
+    override func viewWillAppear(_ animated: Bool) {
+        photoesCollection?.isUserInteractionEnabled = true
+    }
 }
 
 extension AllPhotosController: UICollectionViewDelegate,UICollectionViewDataSource {
@@ -120,6 +158,7 @@ extension AllPhotosController: UICollectionViewDelegate,UICollectionViewDataSour
             photosVC.chooseImage = img.imgScale(width: SCREENW)
             self.present(photosVC, animated: true, completion: nil)
         }
+        collectionView.isUserInteractionEnabled = false
     }
     
     func timerAction() {
@@ -133,6 +172,36 @@ extension AllPhotosController: UICollectionViewDelegate,UICollectionViewDataSour
         
         if indexPath.item == imageArr.count - 9 {
             imgArrAdd?()
+        }
+    }
+}
+
+extension AllPhotosController: UITableViewDelegate,UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return itemArr?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableView_CellID, for: indexPath) as! AlbumTableCell
+        cell.item = itemArr?[indexPath.row]
+        if coverImgArr.count > 0 {
+            
+            cell.cover = coverImgArr[indexPath.row]
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let albumResult = itemArr?[indexPath.row].fetchResult
+        refreshAlbum?(albumResult!)
+        imageArr.removeAll()
+        assets?.removeAll()
+        UIView.animate(withDuration: 1.0) {
+            self.albumTableV.frame.origin.y = -SCREENH * 0.4
         }
     }
 }
