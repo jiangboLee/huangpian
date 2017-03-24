@@ -17,6 +17,7 @@ class AllPhotoCollectionCell: UICollectionViewCell {
             img.image = photo
         }
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

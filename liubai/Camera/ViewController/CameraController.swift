@@ -32,8 +32,10 @@ class CameraController: UIViewController {
     var takePhotoImg: UIImageView?
     //相册属性
     fileprivate var AlbumItems: [AlbumItem] = [] // 相册列表
-    fileprivate var imageManager: PHCachingImageManager! //带缓存的图片管理对象
     var albumitemsCount = 0
+    lazy var imageManager = PHCachingImageManager()   //带缓存的图片管理对象
+    var imageArr: [UIImage] = []
+    var assets: [PHAsset] = []
     
     
     override func viewDidLoad() {
@@ -117,16 +119,19 @@ class CameraController: UIViewController {
         }
         takePhoto_Cancel.addTarget(self, action: #selector(takePhotoCancel), for: .touchUpInside)
         
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let allPhotoesButton = UIButton(type: .custom)
         allPhotoesButton.setTitle("相册", for: .normal)
         allPhotoesButton.setTitleColor(UIColor.brown, for: .normal)
         view.addSubview(allPhotoesButton)
         allPhotoesButton.snp.makeConstraints { (make) in
-            make.top.equalTo(takePhoto_Cancel.snp.bottom)
+            make.bottom.equalTo(view)
             make.right.equalTo(view)
         }
         allPhotoesButton.addTarget(self, action: #selector(openAllPhotoes), for: .touchUpInside)
-        
     }
     
     //MARK: 打开相簿
@@ -141,18 +146,50 @@ class CameraController: UIViewController {
             let allPhotoesVC = AllPhotosController()
             allPhotoesVC.imageArr = imageArr
             allPhotoesVC.assets = assets
+            allPhotoesVC.itemArr = itemArr
             allPhotoesVC.imgArrAdd = {
                 
-                self.fetchImage(assetsFetchResults: result!, thumbnailSize: size) { (imageArr,assets) in
-                    allPhotoesVC.imageArr += imageArr
+                self.getAlbumItemFetchResults(assetsFetchResults: result!, thumbnailSize: size, finishedCallBack: { (imageArr, assets) in
+                    allPhotoesVC.imageArr! += imageArr
                     allPhotoesVC.assets? += assets
-                }
+                })
+            }
+            allPhotoesVC.coverImg = {
+                
+                self.getAlbumCoverImg(itemArr, finishedCallBack: { (coverImgArr) in
+                    allPhotoesVC.coverImgArr = coverImgArr
+                })
+            }
+            allPhotoesVC.refreshAlbum = { (albumResult) in
+                
+                self.getAlbumItemFetchResults(assetsFetchResults: albumResult, thumbnailSize: size, finishedCallBack: { (imageArr, assets) in
+                    allPhotoesVC.imageArr = imageArr
+                    allPhotoesVC.assets = assets
+                })
             }
             self.present(allPhotoesVC, animated: true, completion: nil)
         }
         
         
     }
+    //MARK: 获取所有相册首页
+    func getAlbumCoverImg(_ albumItems: [AlbumItem], finishedCallBack: @escaping (_ result: [UIImage])->()) {
+        
+        var coverImgArr: [UIImage] = []
+        for i in 0..<albumItems.count {
+            let album = albumItems[i]
+            cachingImageManager()
+            imageManager.requestImage(for: album.fetchResult[0], targetSize: CGSize(width: 56, height: 56), contentMode: .aspectFit, options: nil, resultHandler: { (image, _) in
+                
+                coverImgArr.append(image!)
+                if i == albumItems.count - 1 {
+                    finishedCallBack(coverImgArr)
+                }
+            })
+        }
+        
+    }
+    
     // MARK: - 获取指定的相册缩略图列表
     func getAlbumItemFetchResults(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ result: [UIImage], _ assets: [PHAsset]) -> ()) {
         
@@ -164,28 +201,32 @@ class CameraController: UIViewController {
     //缓存管理
     fileprivate func cachingImageManager() {
         
-        imageManager = PHCachingImageManager()
         imageManager.stopCachingImagesForAllAssets()
     }
     //获取图片
     fileprivate func fetchImage(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ imageArr: [UIImage], _ assets: [PHAsset]) -> () ) {
     
-        var imageArr: [UIImage] = []
-        var assets: [PHAsset] = []
+        imageArr.removeAll()
+        assets.removeAll()
+        var a = 0
+        if albumitemsCount == assetsFetchResults.count {
+            return
+        }
         if albumitemsCount < assetsFetchResults.count {
             albumitemsCount += 60
         }
         if albumitemsCount >= assetsFetchResults.count {
+            a = albumitemsCount - 60
             albumitemsCount = assetsFetchResults.count
         }
-        
-        for i in (albumitemsCount - 60)..<albumitemsCount {
+        //((a == 0) ? (albumitemsCount-60) : a)
+        for i in ((a == 0) ? (albumitemsCount-60) : a)..<albumitemsCount {
             let asset = assetsFetchResults[i]
             imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
-                imageArr.append(image!)
-                assets.append(asset)
+                self.imageArr.append(image!)
+                self.assets.append(asset)
                 if i == self.albumitemsCount - 1 {
-                    finishedCallBack(imageArr, assets)
+                    finishedCallBack(self.imageArr, self.assets)
                 }
             })
         }

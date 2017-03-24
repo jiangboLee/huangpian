@@ -53,7 +53,7 @@ class PhotosController: UIViewController {
     
     func clickButton1() {
         //设置滤镜效果
-        let passthroughFilter = GPUImageGaussianBlurFilter()
+        let passthroughFilter = GPUImageHueFilter()
         //设置要渲染区域
         passthroughFilter.forceProcessing(at: chooseImage!.size)
         passthroughFilter.useNextFrameForImageCapture()
@@ -68,9 +68,19 @@ class PhotosController: UIViewController {
         
         imgView.image = newImage
     }
+    //GPUImageSmoothToonFilter 卡通
+    //GPUImageSketchFilter 素描
+    //GPUImageGlassSphereFilter 水晶球效果
+    //GPUImageEmbossFilter 浮雕效果
+    //GPUImageTiltShiftFilter 上下模糊中间清晰
+    //GPUImageSepiaFilter 怀旧
+    //GPUImageHueFilter 绿巨人
+    
+    
     func clickButton2() {
+        
         //设置滤镜效果
-        let passthroughFilter = GPUImageSketchFilter()
+        let passthroughFilter = GPUImageSepiaFilter()
         //设置要渲染区域
         passthroughFilter.forceProcessing(at: chooseImage!.size)
         passthroughFilter.useNextFrameForImageCapture()
