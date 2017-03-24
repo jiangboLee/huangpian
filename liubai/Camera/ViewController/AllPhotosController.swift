@@ -24,7 +24,7 @@ class AllPhotosController: UIViewController {
     var assets: [PHAsset]?
     var photoesCollection: UICollectionView?
     var a: CGFloat = 0.1
-    var imgArrAdd: (()->())?
+    var imgArrAdd: ((_ albumResult: PHFetchResult<PHAsset>)->())?
     var aboveView: UIView!
     //相册集合
     lazy var albumTableV: UITableView = {
@@ -49,6 +49,11 @@ class AllPhotosController: UIViewController {
     }
     //选取相册后重新刷新
     var refreshAlbum: ((_ albumResult: PHFetchResult<PHAsset>)->())?
+    //当前目标相册
+    var nowAlbum: PHFetchResult<PHAsset>?
+    var chooseAlbumButton: UIButton!
+    var isSelect: Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +78,7 @@ class AllPhotosController: UIViewController {
         }
         backButton.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
         
-        let chooseAlbumButton = UIButton(type: .custom)
+        chooseAlbumButton = UIButton(type: .custom)
         chooseAlbumButton.setTitle("选取相册", for: .normal)
         chooseAlbumButton.setTitleColor(UIColor.blue, for: .normal)
         aboveView.addSubview(chooseAlbumButton)
@@ -107,15 +112,24 @@ class AllPhotosController: UIViewController {
     }
     
     func backButtonClick() {
-        
+        albumTableV.isHidden = true
         dismiss(animated: true, completion: nil)
     }
-    
+    //MARK: 点击选择相册
     func chooseAlbumButtonClick() {
-        coverImg?()
-        UIView.animate(withDuration: 0.8) {
-            
-            self.albumTableV.frame.origin.y = SCREENH * 0.1
+        let isS = !isSelect
+        if isS {
+            isSelect = true
+            coverImg?()
+            UIView.animate(withDuration: 0.8) {
+                
+                self.albumTableV.frame.origin.y = SCREENH * 0.1
+            }
+        } else {
+            isSelect = false
+            UIView.animate(withDuration: 0.8) {
+                self.albumTableV.frame.origin.y = -SCREENH * 0.4
+            }
         }
     }
   
@@ -171,7 +185,7 @@ extension AllPhotosController: UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         if indexPath.item == imageArr.count - 9 {
-            imgArrAdd?()
+            imgArrAdd?(nowAlbum!)
         }
     }
 }
@@ -191,16 +205,18 @@ extension AllPhotosController: UITableViewDelegate,UITableViewDataSource {
             
             cell.cover = coverImgArr[indexPath.row]
         }
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let albumResult = itemArr?[indexPath.row].fetchResult
+        nowAlbum = albumResult
         refreshAlbum?(albumResult!)
         imageArr.removeAll()
         assets?.removeAll()
-        UIView.animate(withDuration: 1.0) {
+        UIView.animate(withDuration: 0.8) {
             self.albumTableV.frame.origin.y = -SCREENH * 0.4
         }
     }

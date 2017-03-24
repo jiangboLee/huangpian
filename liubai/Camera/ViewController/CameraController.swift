@@ -32,7 +32,8 @@ class CameraController: UIViewController {
     var takePhotoImg: UIImageView?
     //相册属性
     fileprivate var AlbumItems: [AlbumItem] = [] // 相册列表
-    fileprivate var imageManager: PHCachingImageManager! //带缓存的图片管理对象
+    //带缓存的图片管理对象
+    lazy var imageManager = PHCachingImageManager()
     var albumitemsCount = 0
     
     
@@ -142,9 +143,10 @@ class CameraController: UIViewController {
             allPhotoesVC.imageArr = imageArr
             allPhotoesVC.assets = assets
             allPhotoesVC.itemArr = itemArr
-            allPhotoesVC.imgArrAdd = {
+            allPhotoesVC.nowAlbum = result
+            allPhotoesVC.imgArrAdd = { (nowAlbum) in
                 
-                self.fetchImage(assetsFetchResults: result!, thumbnailSize: size) { (imageArr,assets) in
+                self.fetchImage(assetsFetchResults: nowAlbum, thumbnailSize: size) { (imageArr,assets) in
                     allPhotoesVC.imageArr += imageArr
                     allPhotoesVC.assets? += assets
                 }
@@ -193,8 +195,7 @@ class CameraController: UIViewController {
     }
     //缓存管理
     fileprivate func cachingImageManager() {
-        
-        imageManager = PHCachingImageManager()
+
         imageManager.stopCachingImagesForAllAssets()
     }
     //获取图片
@@ -202,7 +203,7 @@ class CameraController: UIViewController {
     
         var imageArr: [UIImage] = []
         var assets: [PHAsset] = []
-        var a = 0
+        var a = -1
         if albumitemsCount == assetsFetchResults.count {
             return
         }
@@ -217,7 +218,7 @@ class CameraController: UIViewController {
             albumitemsCount = assetsFetchResults.count
         }
         
-        for i in ((a > 0) ? (albumitemsCount-60) : a)..<albumitemsCount {
+        for i in ((a == -1) ? (albumitemsCount-60) : a)..<albumitemsCount {
             let asset = assetsFetchResults[i]
             imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
                 imageArr.append(image!)
