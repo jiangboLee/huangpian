@@ -52,42 +52,44 @@ class AllPhotosController: UIViewController {
     //当前目标相册
     var nowAlbum: PHFetchResult<PHAsset>?
     var chooseAlbumButton: UIButton!
-    var isSelect: Bool = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         aboveView = UIView()
-        aboveView.backgroundColor = UIColor.red
+        aboveView.backgroundColor = UIColor.white
         view.addSubview(aboveView)
         aboveView.snp.makeConstraints { (make) in
             make.left.right.top.equalTo(view)
-            make.height.equalTo(view).multipliedBy(0.1)
+            make.height.equalTo(view).multipliedBy(0.08)
         }
         aboveView.layoutIfNeeded()
         
         let backButton = UIButton(type: .custom)
-        backButton.setTitle("返回", for: .normal)
-        backButton.setTitleColor(UIColor.blue, for: .normal)
+        backButton.setBackgroundImage(#imageLiteral(resourceName: "photoAlbum_cameraRoll_icon_back"), for: .normal)
         aboveView.addSubview(backButton)
         backButton.snp.makeConstraints { (make) in
-            make.width.equalTo(70)
-            make.height.equalTo(aboveView)
+            make.height.width.equalTo(aboveView.snp.height)
             make.left.top.equalTo(aboveView)
         }
         backButton.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
         
         chooseAlbumButton = UIButton(type: .custom)
-        chooseAlbumButton.setTitle("选取相册", for: .normal)
-        chooseAlbumButton.setTitleColor(UIColor.blue, for: .normal)
+        chooseAlbumButton.setTitle("相机胶卷", for: .normal)
+        chooseAlbumButton.setTitleColor(UIColor.black, for: .normal)
+        chooseAlbumButton.setImage(#imageLiteral(resourceName: "photoAlbum_cameraRoll_icon_unfold"), for: .normal)
+        chooseAlbumButton.setImage(#imageLiteral(resourceName: "photoAlbum_cameraRoll_icon_pickUp"), for: .selected)
+        chooseAlbumButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -70, bottom: 0, right: 0)
+        chooseAlbumButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
+        
         aboveView.addSubview(chooseAlbumButton)
         chooseAlbumButton.snp.makeConstraints { (make) in
-            make.width.equalTo(100)
+            make.width.equalTo(150)
             make.height.equalTo(aboveView)
             make.centerX.top.equalTo(aboveView)
         }
-        chooseAlbumButton.addTarget(self, action: #selector(chooseAlbumButtonClick), for: .touchUpInside)
+        chooseAlbumButton.addTarget(self, action: #selector(chooseAlbumButtonClick(button:)), for: .touchUpInside)
         
         let photoCollection = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: AllPhotoesFlowLayout())
         photoCollection.backgroundColor = UIColor.white
@@ -116,20 +118,23 @@ class AllPhotosController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     //MARK: 点击选择相册
-    func chooseAlbumButtonClick() {
-        let isS = !isSelect
-        if isS {
-            isSelect = true
+    func chooseAlbumButtonClick(button: UIButton) {
+        button.isSelected = !button.isSelected
+        if button.isSelected {
+            
             coverImg?()
-            UIView.animate(withDuration: 0.8) {
+            UIView.animate(withDuration: 0.5) {
                 
-                self.albumTableV.frame.origin.y = SCREENH * 0.1
+                self.albumTableV.frame.origin.y = SCREENH * 0.08
             }
         } else {
-            isSelect = false
-            UIView.animate(withDuration: 0.8) {
+          
+            UIView.animate(withDuration: 0.5, animations: {
                 self.albumTableV.frame.origin.y = -SCREENH * 0.4
-            }
+            }, completion: { (true) in
+                self.coverImgArr.removeAll()
+            })
+            
         }
     }
   
@@ -188,6 +193,10 @@ extension AllPhotosController: UICollectionViewDelegate,UICollectionViewDataSour
             imgArrAdd?(nowAlbum!)
         }
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }
 
 extension AllPhotosController: UITableViewDelegate,UITableViewDataSource {
@@ -201,7 +210,7 @@ extension AllPhotosController: UITableViewDelegate,UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: tableView_CellID, for: indexPath) as! AlbumTableCell
         cell.item = itemArr?[indexPath.row]
-        if coverImgArr.count > 0 {
+        if coverImgArr.count > 0 && coverImgArr.count > indexPath.row {
             
             cell.cover = coverImgArr[indexPath.row]
         }
@@ -211,13 +220,11 @@ extension AllPhotosController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        imageArr.removeAll()
+        assets?.removeAll()
         let albumResult = itemArr?[indexPath.row].fetchResult
         nowAlbum = albumResult
         refreshAlbum?(albumResult!)
-        imageArr.removeAll()
-        assets?.removeAll()
-        UIView.animate(withDuration: 0.8) {
-            self.albumTableV.frame.origin.y = -SCREENH * 0.4
-        }
+        chooseAlbumButtonClick(button: chooseAlbumButton)
     }
 }

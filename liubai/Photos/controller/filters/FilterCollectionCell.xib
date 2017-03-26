@@ -29,6 +29,7 @@
                     </label>
                 </subviews>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="I9h-JN-Ght" secondAttribute="bottom" id="5SX-J7-8Du"/>
                 <constraint firstAttribute="trailing" secondItem="lkB-e9-jhY" secondAttribute="trailing" id="IDR-w8-44W"/>
@@ -47,6 +48,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="11" width="1512" height="1512"/>
+        <image name="11" width="300" height="300"/>
     </resources>
 </document>

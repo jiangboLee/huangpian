@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Ptoo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,6 +22,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>使用相机</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>请求相册</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,9 +47,56 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>请求相册</string>
-	<key>NSCameraUsageDescription</key>
-	<string>使用相机</string>
+    
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <!-- 微信 URL Scheme 白名单-->
+        <string>wechat</string>
+        <string>weixin</string>
+        
+        <!-- 新浪微博 URL Scheme 白名单-->
+        <string>sinaweibohd</string>
+        <string>sinaweibo</string>
+        <string>sinaweibosso</string>
+        <string>weibosdk</string>
+        <string>weibosdk2.5</string>
+        
+        <!-- QQ、Qzone URL Scheme 白名单-->
+        <string>mqqapi</string>
+        <string>mqq</string>
+        <string>mqqOpensdkSSoLogin</string>
+        <string>mqqconnect</string>
+        <string>mqqopensdkdataline</string>
+        <string>mqqopensdkgrouptribeshare</string>
+        <string>mqqopensdkfriend</string>
+        <string>mqqopensdkapi</string>
+        <string>mqqopensdkapiV2</string>
+        <string>mqqopensdkapiV3</string>
+        <string>mqqopensdkapiV4</string>
+        <string>mqzoneopensdk</string>
+        <string>wtloginmqq</string>
+        <string>wtloginmqq2</string>
+        <string>mqqwpa</string>
+        <string>mqzone</string>
+        <string>mqzonev2</string>
+        <string>mqzoneshare</string>
+        <string>wtloginqzone</string>
+        <string>mqzonewx</string>
+        <string>mqzoneopensdkapiV2</string>
+        <string>mqzoneopensdkapi19</string>
+        <string>mqzoneopensdkapi</string>
+        <string>mqqbrowser</string>
+        <string>mttbrowser</string>
+        
+        <!-- Kakao URL Scheme 白名单-->
+        <!-- 注：以下第一个参数需替换为自己的kakao appkey-->
+        <!-- 格式为 kakao + "kakao appkey"-->
+        <string>kakaofa63a0b2356e923f3edd6512d531f546</string>
+        <string>kakaokompassauth</string>
+        <string>storykompassauth</string>
+        <string>kakaolink</string>
+        <string>kakaotalk-4.5.0</string>
+        <string>kakaostory-2.9.0</string>
+    </array>
 </dict>
 </plist>

@@ -20,6 +20,7 @@
 		B70AC68A1E850479007AC25C /* FilterCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70AC6891E850479007AC25C /* FilterCollectionView.swift */; };
 		B70AC68D1E85069B007AC25C /* FilterCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70AC68B1E85069B007AC25C /* FilterCollectionCell.swift */; };
 		B70AC68E1E85069B007AC25C /* FilterCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B70AC68C1E85069B007AC25C /* FilterCollectionCell.xib */; };
+		B70AC6921E852749007AC25C /* GPUImageBeautifyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AC6911E852749007AC25C /* GPUImageBeautifyFilter.m */; };
 		B7A579991E61A2A300326000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A579981E61A2A300326000 /* AppDelegate.swift */; };
 		B7A5799B1E61A2A300326000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A5799A1E61A2A300326000 /* ViewController.swift */; };
 		B7A5799E1E61A2A300326000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7A5799C1E61A2A300326000 /* Main.storyboard */; };
@@ -43,6 +44,9 @@
 		B70AC6891E850479007AC25C /* FilterCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollectionView.swift; sourceTree = "<group>"; };
 		B70AC68B1E85069B007AC25C /* FilterCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollectionCell.swift; sourceTree = "<group>"; };
 		B70AC68C1E85069B007AC25C /* FilterCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterCollectionCell.xib; sourceTree = "<group>"; };
+		B70AC68F1E852748007AC25C /* liubai-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "liubai-Bridging-Header.h"; sourceTree = "<group>"; };
+		B70AC6901E852749007AC25C /* GPUImageBeautifyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImageBeautifyFilter.h; sourceTree = "<group>"; };
+		B70AC6911E852749007AC25C /* GPUImageBeautifyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUImageBeautifyFilter.m; sourceTree = "<group>"; };
 		B7A579951E61A2A300326000 /* liubai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = liubai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7A579981E61A2A300326000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B7A5799A1E61A2A300326000 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -117,9 +121,28 @@
 				B70AC6891E850479007AC25C /* FilterCollectionView.swift */,
 				B70AC68B1E85069B007AC25C /* FilterCollectionCell.swift */,
 				B70AC68C1E85069B007AC25C /* FilterCollectionCell.xib */,
+				B70AC6901E852749007AC25C /* GPUImageBeautifyFilter.h */,
+				B70AC6911E852749007AC25C /* GPUImageBeautifyFilter.m */,
+				B70AC68F1E852748007AC25C /* liubai-Bridging-Header.h */,
 			);
 			name = filters;
 			path = controller/filters;
+			sourceTree = "<group>";
+		};
+		B70AC6971E8786C6007AC25C /* Pingtu(拼图) */ = {
+			isa = PBXGroup;
+			children = (
+				B70AC6981E8786C6007AC25C /* controller */,
+			);
+			name = "Pingtu(拼图)";
+			path = Pingtu;
+			sourceTree = "<group>";
+		};
+		B70AC6981E8786C6007AC25C /* controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = controller;
 			sourceTree = "<group>";
 		};
 		B7A5798C1E61A2A300326000 = {
@@ -148,6 +171,7 @@
 				B7A5799C1E61A2A300326000 /* Main.storyboard */,
 				B7A579AA1E62724700326000 /* Camera(打开照相机) */,
 				B70AC6681E76DD0D007AC25C /* Photos(相册) */,
+				B70AC6971E8786C6007AC25C /* Pingtu(拼图) */,
 				B7A579AD1E62724D00326000 /* Tools */,
 				B7A5799F1E61A2A300326000 /* Assets.xcassets */,
 				B7A579A11E61A2A300326000 /* LaunchScreen.storyboard */,
@@ -249,6 +273,7 @@
 					B7A579941E61A2A300326000 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 47W28PSMV7;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -343,6 +368,7 @@
 				B70AC6861E84E395007AC25C /* AlbumTableCell.swift in Sources */,
 				B7A579AF1E62729200326000 /* CameraController.swift in Sources */,
 				B70AC68A1E850479007AC25C /* FilterCollectionView.swift in Sources */,
+				B70AC6921E852749007AC25C /* GPUImageBeautifyFilter.m in Sources */,
 				B70AC66B1E76DD84007AC25C /* PhotosController.swift in Sources */,
 				B70AC67B1E839020007AC25C /* AllPhotoesFlowLayout.swift in Sources */,
 				B70AC68D1E85069B007AC25C /* FilterCollectionCell.swift in Sources */,
@@ -476,6 +502,7 @@
 			baseConfigurationReference = BDF2DC40FD7BACA7C2DDF64B /* Pods-liubai.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 47W28PSMV7;
 				INFOPLIST_FILE = liubai/Info.plist;
@@ -485,6 +512,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9b2c5087-b123-414c-b705-21acb1a124b4";
 				PROVISIONING_PROFILE_SPECIFIER = lijiangbotest;
+				SWIFT_OBJC_BRIDGING_HEADER = "liubai/Photos/controller/filters/liubai-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -494,6 +523,7 @@
 			baseConfigurationReference = C0F471D23F4E1A48CC04C302 /* Pods-liubai.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 47W28PSMV7;
 				INFOPLIST_FILE = liubai/Info.plist;
@@ -503,6 +533,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9b2c5087-b123-414c-b705-21acb1a124b4";
 				PROVISIONING_PROFILE_SPECIFIER = lijiangbotest;
+				SWIFT_OBJC_BRIDGING_HEADER = "liubai/Photos/controller/filters/liubai-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

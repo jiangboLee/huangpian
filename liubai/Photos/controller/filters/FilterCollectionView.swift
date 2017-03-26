@@ -16,7 +16,8 @@ class FilterCollectionView: UICollectionView, UICollectionViewDelegate, UICollec
     
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: CGRect(x: 0, y: 0, width: SCREENW, height: 100), collectionViewLayout: FilterCollectionViewFlowLayout())
+        super.init(frame: CGRect(x: 0, y: 0, width: SCREENW, height: 80), collectionViewLayout: FilterCollectionViewFlowLayout())
+        backgroundColor = UIColor.clear
         delegate = self
         dataSource = self
         bounces = false
@@ -38,6 +39,7 @@ class FilterCollectionView: UICollectionView, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCollectionViewCellID, for: indexPath) as! FilterCollectionCell
         
         cell.filterName.text = filterImgArr[indexPath.row]
+        cell.filterImg.image = UIImage(named: "11")?.circleImage()
         return cell
     }
     
@@ -52,8 +54,10 @@ class FilterCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     override init() {
         super.init()
-        itemSize = CGSize(width: SCREENW / 4, height: SCREENW / 4)
-        minimumLineSpacing = 0
+        let margin: CGFloat = 8.0
+        let width = (SCREENW - margin * 4.0) / 5.0
+        itemSize = CGSize(width: width, height: width)
+        minimumLineSpacing = margin
         minimumInteritemSpacing = 0
         scrollDirection = .horizontal
     }

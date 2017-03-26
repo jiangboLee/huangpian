@@ -14,6 +14,12 @@ class PhotosController: UIViewController {
 
     var chooseImage: UIImage?
     var imgView: UIImageView = UIImageView()
+    var lastRotation: CGFloat = 0.0
+    var lastScale: CGFloat?
+    var firstX: CGFloat?
+    var firstY:CGFloat?
+    
+    
     
     //滤镜视图
     lazy var filterView: FilterCollectionView = {
@@ -45,6 +51,18 @@ class PhotosController: UIViewController {
         imageView.image = chooseImage
         view.addSubview(imageView)
         imgView = imageView
+        imgView.isUserInteractionEnabled = true
+        
+        //旋转
+        let rotateRecongnizer = UIRotationGestureRecognizer(target: self, action: #selector(rotateImage(rotateRecongnizer:)))
+        imgView.addGestureRecognizer(rotateRecongnizer)
+        //捏合
+        let pinchRecongnizer = UIPinchGestureRecognizer(target: self, action: #selector(changeImageSize(recognizer:)))
+        imgView.addGestureRecognizer(pinchRecongnizer)
+        //移动
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveImg(recognizer:)))
+        
+        imgView.addGestureRecognizer(panRecognizer)
         //按钮
         let button1 = UIButton(type: .custom)
         button1.setTitle("滤镜", for: .normal)
@@ -57,7 +75,7 @@ class PhotosController: UIViewController {
         }
         
         let button2 = UIButton(type: .custom)
-        button2.setTitle("效果2", for: .normal)
+        button2.setTitle("马赛克", for: .normal)
         button2.setTitleColor(UIColor.red, for: .normal)
         button2.addTarget(self, action: #selector(clickButton2), for: .touchUpInside)
         button2.sizeToFit()
@@ -78,6 +96,42 @@ class PhotosController: UIViewController {
         }
 
     }
+    //MARK: 图片手势
+    func rotateImage(rotateRecongnizer: UIRotationGestureRecognizer)  {
+        
+        if rotateRecongnizer.state == .ended {
+            lastRotation = 0.0
+            return
+        }
+        let currentTransform = imgView.transform
+        let rotation = 0.0 - (lastRotation - rotateRecongnizer.rotation)
+        let newTransform = currentTransform.rotated(by: rotation)
+        imgView.transform = newTransform
+        lastRotation = rotateRecongnizer.rotation
+    }
+    
+    func changeImageSize(recognizer: UIPinchGestureRecognizer) {
+        
+        if recognizer.state == .began {
+            lastScale = 1.0
+        }
+        let scale = 1.0 - (lastScale! - recognizer.scale)
+        let currentTransform = imgView.transform
+        let newTransform = currentTransform.scaledBy(x: scale, y: scale)
+        imgView.transform = newTransform
+        lastScale = recognizer.scale
+    }
+    
+    func moveImg(recognizer: UIPanGestureRecognizer) {
+        
+        var translatePoint = recognizer.translation(in: imgView)
+        if recognizer.state == .began {
+            firstX = imgView.center.x
+            firstY = imgView.center.y
+        }
+        translatePoint = CGPoint(x: firstX! + translatePoint.x, y: firstY! + translatePoint.y)
+        imgView.center = translatePoint
+    }
     
     func clickButton1(button: UIButton) {
         button.isSelected = !button.isSelected
@@ -95,7 +149,7 @@ class PhotosController: UIViewController {
         var filter: GPUImageOutput! = GPUImageFilter()
         switch item {
         case 0:
-            filter = GPUImageFilter()
+            filter = GPUImageBeautifyFilter()
             break
         case 1:
             filter = GPUImageFilter()
@@ -170,9 +224,6 @@ class PhotosController: UIViewController {
         VC.takePhotoSave()        
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        dismiss(animated: true, completion: nil)
-    }
 }
 
 extension PhotosController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {

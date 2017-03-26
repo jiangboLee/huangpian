@@ -10,5 +10,8 @@ target 'liubai' do
  pod 'GPUImage'
  pod 'SnapKit'
  pod 'SVProgressHUD'
-
+ pod 'UMengUShare/UI'
+ pod 'UMengUShare/Social/WeChat'
+ pod 'UMengUShare/Social/QQ'
+ pod 'UMengUShare/Social/Sina'
 end

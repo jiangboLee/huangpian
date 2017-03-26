@@ -16,7 +16,9 @@ class FilterCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+       
+//        filterImg.layer.cornerRadius = filterImg.bounds.size.width / 2
+//        filterImg.clipsToBounds = true
     }
 
 }
