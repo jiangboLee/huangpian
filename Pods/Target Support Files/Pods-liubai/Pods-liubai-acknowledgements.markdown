@@ -67,6 +67,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## UMengAnalytics-NO-IDFA
+
+Copyright 2011 - 2015 UMeng.com. All rights reserved.
+
+
 ## UMengUShare
 
 Copyright 2011 - 2016 UMeng.com. All rights reserved.

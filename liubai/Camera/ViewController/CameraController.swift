@@ -98,9 +98,12 @@ class CameraController: UIViewController {
         return takePhoto_Share
     }()
     
+    //是否拍照还是照片处理
+    var isTakePhoto: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.blue
+        view.backgroundColor = UIColor.white
         //创建滤镜
         let beautifulFilter = GPUImageBeautifyFilter()
         //创建预览视图
@@ -264,9 +267,10 @@ class CameraController: UIViewController {
         
         let size = AllPhotoesFlowLayout().itemSize
         let itemArr = getAlbumItem()
-        let result = itemArr.first?.fetchResult
+        let result1 = itemArr.first?.fetchResult
         albumitemsCount = 0
-        getAlbumItemFetchResults(assetsFetchResults: result!, thumbnailSize: size) { (imageArr,assets) in
+        guard let result = result1 else { return  }
+        getAlbumItemFetchResults(assetsFetchResults: result, thumbnailSize: size) { (imageArr,assets) in
             
             let allPhotoesVC = AllPhotosController()
             allPhotoesVC.imageArr = imageArr
@@ -404,6 +408,7 @@ class CameraController: UIViewController {
             self.takePhotoImg!.frame = self.filterVideoView!.bounds
             self.filterVideoView?.addSubview(self.takePhotoImg!)
             self.clearView.isHidden = true
+            self.filterView.isHidden = true
             self.takePhoto_Save.isHidden = false
             self.takePhoto_Cancel.isHidden = false
             self.takePhoto_Share.isHidden = false
@@ -500,17 +505,44 @@ class CameraController: UIViewController {
     //MARK: 分享
     func sharePhoto() {
         
+        UMSocialShareUIConfig.shareInstance().shareTitleViewConfig.isShow = true
+        UMSocialShareUIConfig.shareInstance().shareTitleViewConfig.shareTitleViewTitleString = "分享至"
+        UMSocialShareUIConfig.shareInstance().sharePageGroupViewConfig.sharePageGroupViewPostionType = .bottom
+        UMSocialShareUIConfig.shareInstance().sharePageScrollViewConfig.shareScrollViewPageMaxColumnCountForPortraitAndBottom = 3
+        UMSocialShareUIConfig.shareInstance().shareCancelControlConfig.isShow = false
+        UMSocialShareUIConfig.shareInstance().shareContainerConfig.isShareContainerHaveGradient = false
+        
+        UMSocialUIManager.showShareMenuViewInWindow { (platformType, userInfo) in
+            
+            let messageObject = UMSocialMessageObject.init()
+            let shareObject = UMShareImageObject.init()
+            shareObject.thumbImage = UIImage(named: "AppIcon")
+            shareObject.shareImage = self.takePhotoImg?.image
+            messageObject.shareObject = shareObject
+            UMSocialManager.default().share(to: platformType, messageObject: messageObject, currentViewController: self, completion: { (data, error) in
+                
+                if error != nil {
+                
+                } else {
+                
+                }
+            })
+        }
     }
     
     //MARK: 取消保存
     func takePhotoCancel() {
         
-        self.takePhotoImg?.isHidden = true
-        self.takePhotoImg?.removeFromSuperview()
-        self.clearView.isHidden = false
-        self.takePhoto_Save.isHidden = true
-        self.takePhoto_Cancel.isHidden = true
-        self.takePhoto_Share.isHidden = true
+        if isTakePhoto {
+            
+            self.takePhotoImg?.isHidden = true
+            self.takePhotoImg?.removeFromSuperview()
+            self.clearView.isHidden = false
+            self.filterView.isHidden = false
+            self.takePhoto_Save.isHidden = true
+            self.takePhoto_Cancel.isHidden = true
+            self.takePhoto_Share.isHidden = true
+        }
     }
     
     //MARK: 聚焦

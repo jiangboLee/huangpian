@@ -19,7 +19,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+//        let animationView = LAAnimationView.animationNamed("LottieLogo1")
+//        animationView?.contentMode = .scaleAspectFill
+//        animationView?.frame = CGRect(x: 0, y: 0, width: 375, height: 300)
+//        view.addSubview(animationView!)
+//        animationView?.play { (finished) in
+//            
+//        }
+        
        
     }
 

@@ -6,6 +6,28 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Ptoo</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>newIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>newIcon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>AppIcon</string>
+			</array>
+		</dict>
+	</dict>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -18,22 +40,111 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>cn.lijiangbo.liubai</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>iOSPtoo</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wxdc1e388c3822c80b</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tencent1105923615</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>QQ41EB0E1F</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb1497207940</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>wechat</string>
+		<string>weixin</string>
+		<string>sinaweibohd</string>
+		<string>sinaweibo</string>
+		<string>sinaweibosso</string>
+		<string>weibosdk</string>
+		<string>weibosdk2.5</string>
+		<string>mqqapi</string>
+		<string>mqq</string>
+		<string>mqqOpensdkSSoLogin</string>
+		<string>mqqconnect</string>
+		<string>mqqopensdkdataline</string>
+		<string>mqqopensdkgrouptribeshare</string>
+		<string>mqqopensdkfriend</string>
+		<string>mqqopensdkapi</string>
+		<string>mqqopensdkapiV2</string>
+		<string>mqqopensdkapiV3</string>
+		<string>mqqopensdkapiV4</string>
+		<string>mqzoneopensdk</string>
+		<string>wtloginmqq</string>
+		<string>wtloginmqq2</string>
+		<string>mqqwpa</string>
+		<string>mqzone</string>
+		<string>mqzonev2</string>
+		<string>mqzoneshare</string>
+		<string>wtloginqzone</string>
+		<string>mqzonewx</string>
+		<string>mqzoneopensdkapiV2</string>
+		<string>mqzoneopensdkapi19</string>
+		<string>mqzoneopensdkapi</string>
+		<string>mqqbrowser</string>
+		<string>mttbrowser</string>
+		<string>kakaofa63a0b2356e923f3edd6512d531f546</string>
+		<string>kakaokompassauth</string>
+		<string>storykompassauth</string>
+		<string>kakaolink</string>
+		<string>kakaotalk-4.5.0</string>
+		<string>kakaostory-2.9.0</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>使用相机</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请求相册</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -47,56 +158,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <!-- 微信 URL Scheme 白名单-->
-        <string>wechat</string>
-        <string>weixin</string>
-        
-        <!-- 新浪微博 URL Scheme 白名单-->
-        <string>sinaweibohd</string>
-        <string>sinaweibo</string>
-        <string>sinaweibosso</string>
-        <string>weibosdk</string>
-        <string>weibosdk2.5</string>
-        
-        <!-- QQ、Qzone URL Scheme 白名单-->
-        <string>mqqapi</string>
-        <string>mqq</string>
-        <string>mqqOpensdkSSoLogin</string>
-        <string>mqqconnect</string>
-        <string>mqqopensdkdataline</string>
-        <string>mqqopensdkgrouptribeshare</string>
-        <string>mqqopensdkfriend</string>
-        <string>mqqopensdkapi</string>
-        <string>mqqopensdkapiV2</string>
-        <string>mqqopensdkapiV3</string>
-        <string>mqqopensdkapiV4</string>
-        <string>mqzoneopensdk</string>
-        <string>wtloginmqq</string>
-        <string>wtloginmqq2</string>
-        <string>mqqwpa</string>
-        <string>mqzone</string>
-        <string>mqzonev2</string>
-        <string>mqzoneshare</string>
-        <string>wtloginqzone</string>
-        <string>mqzonewx</string>
-        <string>mqzoneopensdkapiV2</string>
-        <string>mqzoneopensdkapi19</string>
-        <string>mqzoneopensdkapi</string>
-        <string>mqqbrowser</string>
-        <string>mttbrowser</string>
-        
-        <!-- Kakao URL Scheme 白名单-->
-        <!-- 注：以下第一个参数需替换为自己的kakao appkey-->
-        <!-- 格式为 kakao + "kakao appkey"-->
-        <string>kakaofa63a0b2356e923f3edd6512d531f546</string>
-        <string>kakaokompassauth</string>
-        <string>storykompassauth</string>
-        <string>kakaolink</string>
-        <string>kakaotalk-4.5.0</string>
-        <string>kakaostory-2.9.0</string>
-    </array>
 </dict>
 </plist>

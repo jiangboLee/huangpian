@@ -14,4 +14,8 @@ target 'liubai' do
  pod 'UMengUShare/Social/WeChat'
  pod 'UMengUShare/Social/QQ'
  pod 'UMengUShare/Social/Sina'
+ # 无IDFA版SDK
+ pod 'UMengAnalytics-NO-IDFA'
+
+# pod 'lottie-ios'
 end

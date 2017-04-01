@@ -2,6 +2,7 @@ PODS:
   - GPUImage (0.1.7)
   - SnapKit (3.1.2)
   - SVProgressHUD (2.1.2)
+  - UMengAnalytics-NO-IDFA (4.2.5)
   - UMengUShare/Core (6.2.2):
     - UMengUShare/Network
   - UMengUShare/Network (6.2.2)
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - GPUImage
   - SnapKit
   - SVProgressHUD
+  - UMengAnalytics-NO-IDFA
   - UMengUShare/Social/QQ
   - UMengUShare/Social/Sina
   - UMengUShare/Social/WeChat
@@ -27,8 +29,9 @@ SPEC CHECKSUMS:
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   SnapKit: 12b24f569cb7c143acc9c22b9d91b23e7b1c84a2
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+  UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
   UMengUShare: fc0a98b8d5297632e82874318fd72a10d17da228
 
-PODFILE CHECKSUM: 44a8758e1e31b6f4371e83b2744ebc66dd279e94
+PODFILE CHECKSUM: 69f779dc0d823a4d9499a8f81189e9638353c4de
 
 COCOAPODS: 1.2.0

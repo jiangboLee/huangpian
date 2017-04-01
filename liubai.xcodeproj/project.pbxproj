@@ -25,8 +25,19 @@
 		B7A5799B1E61A2A300326000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A5799A1E61A2A300326000 /* ViewController.swift */; };
 		B7A5799E1E61A2A300326000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7A5799C1E61A2A300326000 /* Main.storyboard */; };
 		B7A579A01E61A2A300326000 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7A5799F1E61A2A300326000 /* Assets.xcassets */; };
-		B7A579A31E61A2A300326000 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7A579A11E61A2A300326000 /* LaunchScreen.storyboard */; };
 		B7A579AF1E62729200326000 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A579AE1E62729200326000 /* CameraController.swift */; };
+		B7EC36BE1E8BD3D200F942A4 /* sccphoto_smear_last@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EC36AB1E8BD3D200F942A4 /* sccphoto_smear_last@2x.png */; };
+		B7EC36BF1E8BD3D200F942A4 /* sccphoto_smear_last@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EC36AC1E8BD3D200F942A4 /* sccphoto_smear_last@3x.png */; };
+		B7EC36C01E8BD3D200F942A4 /* sccphoto_smear_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EC36AD1E8BD3D200F942A4 /* sccphoto_smear_next@2x.png */; };
+		B7EC36C11E8BD3D200F942A4 /* sccphoto_smear_next@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EC36AE1E8BD3D200F942A4 /* sccphoto_smear_next@3x.png */; };
+		B7EC36C31E8BD3D200F942A4 /* CTImageEditUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC36B21E8BD3D200F942A4 /* CTImageEditUtil.m */; };
+		B7EC36C41E8BD3D200F942A4 /* CTImageSmearBottom.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC36B41E8BD3D200F942A4 /* CTImageSmearBottom.m */; };
+		B7EC36C51E8BD3D200F942A4 /* CTImageSmearTop.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC36B61E8BD3D200F942A4 /* CTImageSmearTop.m */; };
+		B7EC36C61E8BD3D200F942A4 /* CTImageSmearView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC36B81E8BD3D200F942A4 /* CTImageSmearView.m */; };
+		B7EC36C71E8BD3D200F942A4 /* CTImageSmearViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC36BA1E8BD3D200F942A4 /* CTImageSmearViewController.m */; };
+		B7EC36C81E8BD3D200F942A4 /* UIImage+EditImageWithColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC36BC1E8BD3D200F942A4 /* UIImage+EditImageWithColor.m */; };
+		B7EC36E51E8E966800F942A4 /* libUMessage_Sdk_1.5.0a.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EC36E31E8E966800F942A4 /* libUMessage_Sdk_1.5.0a.a */; };
+		B7EC36E71E8E96A200F942A4 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EC36E61E8E96A200F942A4 /* UserNotifications.framework */; };
 		D19491B0D2685A1DFAAFD94D /* Pods_liubai.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59739F52DDC45133FCB940 /* Pods_liubai.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,9 +63,28 @@
 		B7A5799A1E61A2A300326000 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B7A5799D1E61A2A300326000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B7A5799F1E61A2A300326000 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B7A579A21E61A2A300326000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7A579A41E61A2A300326000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7A579AE1E62729200326000 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		B7EC36AB1E8BD3D200F942A4 /* sccphoto_smear_last@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sccphoto_smear_last@2x.png"; sourceTree = "<group>"; };
+		B7EC36AC1E8BD3D200F942A4 /* sccphoto_smear_last@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sccphoto_smear_last@3x.png"; sourceTree = "<group>"; };
+		B7EC36AD1E8BD3D200F942A4 /* sccphoto_smear_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sccphoto_smear_next@2x.png"; sourceTree = "<group>"; };
+		B7EC36AE1E8BD3D200F942A4 /* sccphoto_smear_next@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sccphoto_smear_next@3x.png"; sourceTree = "<group>"; };
+		B7EC36B11E8BD3D200F942A4 /* CTImageEditUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTImageEditUtil.h; sourceTree = "<group>"; };
+		B7EC36B21E8BD3D200F942A4 /* CTImageEditUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTImageEditUtil.m; sourceTree = "<group>"; };
+		B7EC36B31E8BD3D200F942A4 /* CTImageSmearBottom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTImageSmearBottom.h; sourceTree = "<group>"; };
+		B7EC36B41E8BD3D200F942A4 /* CTImageSmearBottom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTImageSmearBottom.m; sourceTree = "<group>"; };
+		B7EC36B51E8BD3D200F942A4 /* CTImageSmearTop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTImageSmearTop.h; sourceTree = "<group>"; };
+		B7EC36B61E8BD3D200F942A4 /* CTImageSmearTop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTImageSmearTop.m; sourceTree = "<group>"; };
+		B7EC36B71E8BD3D200F942A4 /* CTImageSmearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTImageSmearView.h; sourceTree = "<group>"; };
+		B7EC36B81E8BD3D200F942A4 /* CTImageSmearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTImageSmearView.m; sourceTree = "<group>"; };
+		B7EC36B91E8BD3D200F942A4 /* CTImageSmearViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTImageSmearViewController.h; sourceTree = "<group>"; };
+		B7EC36BA1E8BD3D200F942A4 /* CTImageSmearViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTImageSmearViewController.m; sourceTree = "<group>"; };
+		B7EC36BB1E8BD3D200F942A4 /* UIImage+EditImageWithColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+EditImageWithColor.h"; sourceTree = "<group>"; };
+		B7EC36BC1E8BD3D200F942A4 /* UIImage+EditImageWithColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+EditImageWithColor.m"; sourceTree = "<group>"; };
+		B7EC36E31E8E966800F942A4 /* libUMessage_Sdk_1.5.0a.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.5.0a.a; sourceTree = "<group>"; };
+		B7EC36E41E8E966800F942A4 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		B7EC36E61E8E96A200F942A4 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		B7EC36E81E8E96AE00F942A4 /* liubai.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = liubai.entitlements; sourceTree = "<group>"; };
 		BDF2DC40FD7BACA7C2DDF64B /* Pods-liubai.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-liubai.debug.xcconfig"; path = "Pods/Target Support Files/Pods-liubai/Pods-liubai.debug.xcconfig"; sourceTree = "<group>"; };
 		C0F471D23F4E1A48CC04C302 /* Pods-liubai.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-liubai.release.xcconfig"; path = "Pods/Target Support Files/Pods-liubai/Pods-liubai.release.xcconfig"; sourceTree = "<group>"; };
 		DA59739F52DDC45133FCB940 /* Pods_liubai.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_liubai.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,7 +95,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7EC36E71E8E96A200F942A4 /* UserNotifications.framework in Frameworks */,
 				D19491B0D2685A1DFAAFD94D /* Pods_liubai.framework in Frameworks */,
+				B7EC36E51E8E966800F942A4 /* libUMessage_Sdk_1.5.0a.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +107,7 @@
 		8A5371404AD74BEF79E78448 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7EC36E61E8E96A200F942A4 /* UserNotifications.framework */,
 				DA59739F52DDC45133FCB940 /* Pods_liubai.framework */,
 			);
 			name = Frameworks;
@@ -85,6 +118,7 @@
 			children = (
 				B70AC6881E850435007AC25C /* filters */,
 				B70AC6691E76DD0D007AC25C /* controller */,
+				B7EC36A81E8BD3D200F942A4 /* CTImageEdit(马赛克) */,
 			);
 			name = "Photos(相册)";
 			path = Photos;
@@ -166,6 +200,8 @@
 		B7A579971E61A2A300326000 /* liubai */ = {
 			isa = PBXGroup;
 			children = (
+				B7EC36E81E8E96AE00F942A4 /* liubai.entitlements */,
+				B7EC36E21E8E966800F942A4 /* UMessage_Sdk_1.5.0a */,
 				B7A579981E61A2A300326000 /* AppDelegate.swift */,
 				B7A5799A1E61A2A300326000 /* ViewController.swift */,
 				B7A5799C1E61A2A300326000 /* Main.storyboard */,
@@ -174,7 +210,6 @@
 				B70AC6971E8786C6007AC25C /* Pingtu(拼图) */,
 				B7A579AD1E62724D00326000 /* Tools */,
 				B7A5799F1E61A2A300326000 /* Assets.xcassets */,
-				B7A579A11E61A2A300326000 /* LaunchScreen.storyboard */,
 				B7A579A41E61A2A300326000 /* Info.plist */,
 			);
 			path = liubai;
@@ -228,6 +263,55 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B7EC36A81E8BD3D200F942A4 /* CTImageEdit(马赛克) */ = {
+			isa = PBXGroup;
+			children = (
+				B7EC36A91E8BD3D200F942A4 /* Assets */,
+				B7EC36AF1E8BD3D200F942A4 /* Classes */,
+			);
+			name = "CTImageEdit(马赛克)";
+			path = CTImageEdit;
+			sourceTree = "<group>";
+		};
+		B7EC36A91E8BD3D200F942A4 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				B7EC36AB1E8BD3D200F942A4 /* sccphoto_smear_last@2x.png */,
+				B7EC36AC1E8BD3D200F942A4 /* sccphoto_smear_last@3x.png */,
+				B7EC36AD1E8BD3D200F942A4 /* sccphoto_smear_next@2x.png */,
+				B7EC36AE1E8BD3D200F942A4 /* sccphoto_smear_next@3x.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		B7EC36AF1E8BD3D200F942A4 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B7EC36B11E8BD3D200F942A4 /* CTImageEditUtil.h */,
+				B7EC36B21E8BD3D200F942A4 /* CTImageEditUtil.m */,
+				B7EC36B31E8BD3D200F942A4 /* CTImageSmearBottom.h */,
+				B7EC36B41E8BD3D200F942A4 /* CTImageSmearBottom.m */,
+				B7EC36B51E8BD3D200F942A4 /* CTImageSmearTop.h */,
+				B7EC36B61E8BD3D200F942A4 /* CTImageSmearTop.m */,
+				B7EC36B71E8BD3D200F942A4 /* CTImageSmearView.h */,
+				B7EC36B81E8BD3D200F942A4 /* CTImageSmearView.m */,
+				B7EC36B91E8BD3D200F942A4 /* CTImageSmearViewController.h */,
+				B7EC36BA1E8BD3D200F942A4 /* CTImageSmearViewController.m */,
+				B7EC36BB1E8BD3D200F942A4 /* UIImage+EditImageWithColor.h */,
+				B7EC36BC1E8BD3D200F942A4 /* UIImage+EditImageWithColor.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B7EC36E21E8E966800F942A4 /* UMessage_Sdk_1.5.0a */ = {
+			isa = PBXGroup;
+			children = (
+				B7EC36E31E8E966800F942A4 /* libUMessage_Sdk_1.5.0a.a */,
+				B7EC36E41E8E966800F942A4 /* UMessage.h */,
+			);
+			path = UMessage_Sdk_1.5.0a;
+			sourceTree = "<group>";
+		};
 		EBD1ED41EFD76770B283F00B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +359,11 @@
 						DevelopmentTeam = 47W28PSMV7;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -301,10 +390,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7A579A31E61A2A300326000 /* LaunchScreen.storyboard in Resources */,
+				B7EC36BF1E8BD3D200F942A4 /* sccphoto_smear_last@3x.png in Resources */,
 				B7A579A01E61A2A300326000 /* Assets.xcassets in Resources */,
 				B70AC67F1E8392F8007AC25C /* AllPhotoCollectionCell.xib in Resources */,
 				B70AC68E1E85069B007AC25C /* FilterCollectionCell.xib in Resources */,
+				B7EC36C11E8BD3D200F942A4 /* sccphoto_smear_next@3x.png in Resources */,
+				B7EC36C01E8BD3D200F942A4 /* sccphoto_smear_next@2x.png in Resources */,
+				B7EC36BE1E8BD3D200F942A4 /* sccphoto_smear_last@2x.png in Resources */,
 				B70AC6871E84E395007AC25C /* AlbumTableCell.xib in Resources */,
 				B7A5799E1E61A2A300326000 /* Main.storyboard in Resources */,
 			);
@@ -365,18 +457,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7EC36C71E8BD3D200F942A4 /* CTImageSmearViewController.m in Sources */,
 				B70AC6861E84E395007AC25C /* AlbumTableCell.swift in Sources */,
 				B7A579AF1E62729200326000 /* CameraController.swift in Sources */,
+				B7EC36C61E8BD3D200F942A4 /* CTImageSmearView.m in Sources */,
 				B70AC68A1E850479007AC25C /* FilterCollectionView.swift in Sources */,
 				B70AC6921E852749007AC25C /* GPUImageBeautifyFilter.m in Sources */,
 				B70AC66B1E76DD84007AC25C /* PhotosController.swift in Sources */,
 				B70AC67B1E839020007AC25C /* AllPhotoesFlowLayout.swift in Sources */,
+				B7EC36C41E8BD3D200F942A4 /* CTImageSmearBottom.m in Sources */,
 				B70AC68D1E85069B007AC25C /* FilterCollectionCell.swift in Sources */,
 				B70AC6711E76E6BC007AC25C /* UIImage+Extension.swift in Sources */,
+				B7EC36C81E8BD3D200F942A4 /* UIImage+EditImageWithColor.m in Sources */,
 				B70AC67E1E8392F8007AC25C /* AllPhotoCollectionCell.swift in Sources */,
 				B7A5799B1E61A2A300326000 /* ViewController.swift in Sources */,
 				B7A579991E61A2A300326000 /* AppDelegate.swift in Sources */,
 				B70AC6771E826F7A007AC25C /* LJBAlertView.swift in Sources */,
+				B7EC36C51E8BD3D200F942A4 /* CTImageSmearTop.m in Sources */,
+				B7EC36C31E8BD3D200F942A4 /* CTImageEditUtil.m in Sources */,
 				B70AC6791E8388E4007AC25C /* AllPhotosController.swift in Sources */,
 				B70AC6731E76E88E007AC25C /* Common.swift in Sources */,
 			);
@@ -391,14 +489,6 @@
 				B7A5799D1E61A2A300326000 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		B7A579A11E61A2A300326000 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B7A579A21E61A2A300326000 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -502,19 +592,26 @@
 			baseConfigurationReference = BDF2DC40FD7BACA7C2DDF64B /* Pods-liubai.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = liubai/liubai.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lijiangbo lijiangbo (FJ3LE94HND)";
 				DEVELOPMENT_TEAM = 47W28PSMV7;
 				INFOPLIST_FILE = liubai/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liubai/UMessage_Sdk_1.5.0a",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.lijiangbo.liubai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9b2c5087-b123-414c-b705-21acb1a124b4";
-				PROVISIONING_PROFILE_SPECIFIER = lijiangbotest;
+				PROVISIONING_PROFILE = "6b4a7ba9-ea59-447d-9c92-51b075a7fba6";
+				PROVISIONING_PROFILE_SPECIFIER = ptoopush;
 				SWIFT_OBJC_BRIDGING_HEADER = "liubai/Photos/controller/filters/liubai-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -523,18 +620,25 @@
 			baseConfigurationReference = C0F471D23F4E1A48CC04C302 /* Pods-liubai.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = liubai/liubai.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lijiangbo lijiangbo (FJ3LE94HND)";
 				DEVELOPMENT_TEAM = 47W28PSMV7;
 				INFOPLIST_FILE = liubai/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liubai/UMessage_Sdk_1.5.0a",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.lijiangbo.liubai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9b2c5087-b123-414c-b705-21acb1a124b4";
-				PROVISIONING_PROFILE_SPECIFIER = lijiangbotest;
+				PROVISIONING_PROFILE = "6b4a7ba9-ea59-447d-9c92-51b075a7fba6";
+				PROVISIONING_PROFILE_SPECIFIER = ptoopush;
 				SWIFT_OBJC_BRIDGING_HEADER = "liubai/Photos/controller/filters/liubai-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

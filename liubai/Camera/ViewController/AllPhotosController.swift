@@ -171,6 +171,7 @@ extension AllPhotosController: UICollectionViewDelegate,UICollectionViewDataSour
             SVProgressHUD.dismiss()
             guard let img = image else {
                 SVProgressHUD.showError(withStatus: "此照片保存在iCloud,您没有联网，无法下载哦")
+                collectionView.isUserInteractionEnabled = true
                 return
             }
             let photosVC = PhotosController()

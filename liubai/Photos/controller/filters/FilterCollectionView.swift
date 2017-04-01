@@ -11,7 +11,7 @@ import UIKit
 class FilterCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
 
     let FilterCollectionViewCellID = "FilterCollectionViewCellID"
-    let filterImgArr = ["美颜", "原图", "怀旧", "绿巨人", "卡通", "素描", "水晶球效果", "浮雕效果", "上下模糊中间清晰"]
+    let filterImgArr = ["美颜", "原图", "怀旧", "绿巨人", "卡通", "素描", "水晶球", "浮雕", "上下模糊"]
     var clickItem: ((_ item: Int)->())?
     
     
@@ -39,7 +39,7 @@ class FilterCollectionView: UICollectionView, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCollectionViewCellID, for: indexPath) as! FilterCollectionCell
         
         cell.filterName.text = filterImgArr[indexPath.row]
-        cell.filterImg.image = UIImage(named: "11")?.circleImage()
+        cell.filterImg.image = UIImage(named: String(indexPath.row + 1))
         return cell
     }
     
