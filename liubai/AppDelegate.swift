@@ -6,6 +6,7 @@
 //  Copyright © 2017年 lijiangbo. All rights reserved.
 //  1219224872
 // 58d4eac765b6d60c4e00040c 友盟
+// 微信 AppID：wx29c9cba28ba18e06    AppSecret: 00ca41160f5cfe04287574220bc0d7c0
 
 import UIKit
 import UserNotifications
@@ -14,7 +15,6 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
     func configUSharePlatforms() {
         
         /* 设置微信的appKey和appSecret */
-        UMSocialManager.default().setPlaform(.wechatSession, appKey: "wxdc1e388c3822c80b", appSecret: "3baf1193c85774b3fd9d18447d76cab0", redirectURL: "http://www.jianshu.com/u/3cd8d0f74b3a")
+        UMSocialManager.default().setPlaform(.wechatSession, appKey: "wx29c9cba28ba18e06", appSecret: "00ca41160f5cfe04287574220bc0d7c0", redirectURL: "http://www.uupoop.com")
         UMSocialManager.default().setPlaform(.QQ, appKey: "1105923615", appSecret: nil, redirectURL: "http://www.jianshu.com/u/3cd8d0f74b3a")
         UMSocialManager.default().setPlaform(.sina, appKey: "1497207940", appSecret: "5d72cdca0afb7fc5cae8a0e99b2137be", redirectURL: "http://www.baidu.com")
     }

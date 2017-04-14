@@ -115,9 +115,6 @@ class CameraController: UIViewController {
         //把滤镜挂在view上
         beautifulFilter.addTarget(filterView)
         
-        //设置聚焦图片
-        setFocusImage(image: #imageLiteral(resourceName: "takepic_icon_focus"))
-        
         filter = beautifulFilter
         
         //启动摄像头
@@ -126,7 +123,12 @@ class CameraController: UIViewController {
         //所有按钮的父视图
         clearView = UIView(frame: view.bounds)
         clearView.backgroundColor = UIColor.clear
+//        clearView.isUserInteractionEnabled = false
         view.addSubview(clearView)
+        
+        //设置聚焦图片
+        setFocusImage(image: #imageLiteral(resourceName: "takepic_icon_focus"))
+        
         //关闭
         closeButton = UIButton(type: .custom)
         closeButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_close"), for: .normal)
@@ -357,11 +359,17 @@ class CameraController: UIViewController {
             let asset = assetsFetchResults[i]
             let options = PHImageRequestOptions()
             options.isSynchronous = true
+            options.isNetworkAccessAllowed = true
             imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: options, resultHandler: { (image, nfo) in
                 imageArr.append(image!)
                 assets.append(asset)
-                if i == self.albumitemsCount - 1 {
-                    finishedCallBack(imageArr, assets)
+                //!!!一定要回到主线程刷新
+                DispatchQueue.main.async {
+                    
+                    if i == self.albumitemsCount - 1 {
+                        finishedCallBack(imageArr, assets)
+                        return
+                    }
                 }
             })
         }
@@ -538,7 +546,11 @@ class CameraController: UIViewController {
             self.takePhotoImg?.isHidden = true
             self.takePhotoImg?.removeFromSuperview()
             self.clearView.isHidden = false
-            self.filterView.isHidden = false
+            if self.filterButton.isSelected {
+                self.filterView.isHidden = false
+            } else {
+                self.filterView.isHidden = true
+            }
             self.takePhoto_Save.isHidden = true
             self.takePhoto_Cancel.isHidden = true
             self.takePhoto_Share.isHidden = true
@@ -549,9 +561,9 @@ class CameraController: UIViewController {
     func setFocusImage(image: UIImage) {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(focus(tap:)))
-        filterVideoView?.addGestureRecognizer(tap)
+        clearView.addGestureRecognizer(tap)
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(focusDisdance(pinch:)))
-        filterVideoView?.addGestureRecognizer(pinch)
+        clearView.addGestureRecognizer(pinch)
         pinch.delegate = self
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))

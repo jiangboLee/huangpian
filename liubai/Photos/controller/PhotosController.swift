@@ -50,9 +50,11 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
         
         //旋转
         let rotateRecongnizer = UIRotationGestureRecognizer(target: self, action: #selector(rotateImage(rotateRecongnizer:)))
+        rotateRecongnizer.delegate = self
         imgView.addGestureRecognizer(rotateRecongnizer)
         //捏合
         let pinchRecongnizer = UIPinchGestureRecognizer(target: self, action: #selector(changeImageSize(recognizer:)))
+        pinchRecongnizer.delegate = self
         imgView.addGestureRecognizer(pinchRecongnizer)
         //移动
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveImg(recognizer:)))
@@ -158,6 +160,8 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
         let newTransform = currentTransform.rotated(by: rotation)
         imgView.transform = newTransform
         lastRotation = rotateRecongnizer.rotation
+        
+        
     }
     
     func changeImageSize(recognizer: UIPinchGestureRecognizer) {
@@ -174,7 +178,7 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
     
     func moveImg(recognizer: UIPanGestureRecognizer) {
         
-        var translatePoint = recognizer.translation(in: imgView)
+        var translatePoint = recognizer.translation(in: view)
         if recognizer.state == .began {
             firstX = imgView.center.x
             firstY = imgView.center.y
@@ -303,6 +307,12 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
 }
 
 
+extension PhotosController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true;
+    }
+}
 
 
 
