@@ -32,7 +32,7 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
         filterView.snp.makeConstraints({ (make) in
             make.right.left.equalTo(self.view)
             make.height.equalTo(100)
-            make.bottom.equalTo(self.view).offset(-60)
+            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-60)
         })
         return filterView
     }()
@@ -42,7 +42,7 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         
-        let imageView = UIImageView(frame: CGRect(x: (SCREENW - (chooseImage?.size.width)!)/2, y: 0, width: (chooseImage?.size.width)!, height: (chooseImage?.size.height)!))
+        let imageView = UIImageView(frame: CGRect(x: (SCREENW - (chooseImage?.size.width)!)/2, y: (SCREENH - (chooseImage?.size.height)!)/2, width: (chooseImage?.size.width)!, height: (chooseImage?.size.height)!))
         imageView.image = chooseImage
         view.addSubview(imageView)
         imgView = imageView
@@ -67,8 +67,8 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
         cancelButton.sizeToFit()
         view.addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
-            make.left.top.equalTo(view).offset(18)
-            
+            make.left.equalTo(view).offset(18)
+            make.top.equalTo(view.snp.topMargin)
         }
         
         //按钮
@@ -78,7 +78,8 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
         button1.sizeToFit()
         view.addSubview(button1)
         button1.snp.makeConstraints { (make) in
-            make.leading.bottom.equalTo(self.view)
+            make.leading.equalTo(view)
+            make.bottom.equalTo(view.snp.bottomMargin);
         }
         //马赛克按钮
         let mosaicButton = UIButton(type: .custom)
@@ -87,7 +88,8 @@ class PhotosController: UIViewController, CTImageSmearViewControllerDelegate {
         mosaicButton.sizeToFit()
         view.addSubview(mosaicButton)
         mosaicButton.snp.makeConstraints { (make) in
-            make.right.bottom.equalTo(self.view)
+            make.right.equalTo(view)
+            make.bottom.equalTo(view.snp.bottomMargin)
         }
         //保存视频
         let saveButton = UIButton(type: .custom)

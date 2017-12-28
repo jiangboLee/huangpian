@@ -11,4 +11,7 @@ import UIKit
 let SCREENW = UIScreen.main.bounds.width
 let SCREENH = UIScreen.main.bounds.height
 
+public func IS_Iphonex() -> Bool {
+    return SCREENH == 812
+}
 		

@@ -53,3 +53,9 @@ FOUNDATION_EXPORT NSString* const UMSocialLogVerboseFlagString;
 #define UMSocialLogDebug(format, ...)   UMSocialLog(UMSocialLogDebugFlagString,__FILE__,__PRETTY_FUNCTION__,__LINE__,format,##__VA_ARGS__)
 #define UMSocialLogVerbose(format, ...) UMSocialLog(UMSocialLogVerboseFlagString,__FILE__,__PRETTY_FUNCTION__,__LINE__,format,##__VA_ARGS__)
 
+
+//日志国际化的相关的函数和宏
+FOUNDATION_EXPORT NSString* UMSocialLogWithLocalizedKey(NSString* key);
+#define UMSocialLogLocalizedString(key) UMSocialLogWithLocalizedKey(key)
+
+

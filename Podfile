@@ -8,7 +8,7 @@ target 'liubai' do
   # Pods for liubai
 
  pod 'GPUImage'
- pod 'SnapKit'
+ pod 'SnapKit', '~> 3.2.0'
  pod 'SVProgressHUD'
  pod 'UMengUShare/UI'
  pod 'UMengUShare/Social/WeChat'

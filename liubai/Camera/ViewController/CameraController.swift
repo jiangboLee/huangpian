@@ -47,7 +47,7 @@ class CameraController: UIViewController {
         filterView.snp.makeConstraints({ (make) in
             make.right.left.equalTo(self.view)
             make.height.equalTo(80)
-            make.bottom.equalTo(self.view).offset(-80)
+            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-80)
         })
         return filterView
     }()
@@ -67,7 +67,7 @@ class CameraController: UIViewController {
         takePhoto_Save.setBackgroundImage(#imageLiteral(resourceName: "save_icon_save"), for: .normal)
         self.view.addSubview(takePhoto_Save)
         takePhoto_Save.snp.makeConstraints { (make) in
-            make.bottom.equalTo(self.view).offset(-12)
+            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-12)
             make.centerX.equalTo(self.view)
         }
         takePhoto_Save.addTarget(self, action: #selector(takePhotoSave), for: .touchUpInside)
@@ -107,7 +107,9 @@ class CameraController: UIViewController {
         //创建滤镜
         let beautifulFilter = GPUImageBeautifyFilter()
         //创建预览视图
-        let filterView = GPUImageView(frame: self.view.bounds)
+        let filterView = GPUImageView(frame: UIScreen.main.bounds)
+        filterView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
+        
         view.addSubview(filterView)
         filterVideoView = filterView
         //为摄像头添加滤镜
@@ -121,7 +123,7 @@ class CameraController: UIViewController {
 //        videoCamera.startCapture();
         
         //所有按钮的父视图
-        clearView = UIView(frame: view.bounds)
+        clearView = UIView(frame: UIScreen.main.bounds)
         clearView.backgroundColor = UIColor.clear
 //        clearView.isUserInteractionEnabled = false
         view.addSubview(clearView)
@@ -134,7 +136,7 @@ class CameraController: UIViewController {
         closeButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_close"), for: .normal)
         clearView.addSubview(closeButton)
         closeButton.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(15)
+            make.top.equalTo(view.snp.topMargin).offset(15)
             make.left.equalTo(view).offset(15)
         }
         closeButton.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
@@ -176,7 +178,7 @@ class CameraController: UIViewController {
         takePhotoButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_takepicButton"), for: .normal)
         clearView.addSubview(takePhotoButton)
         takePhotoButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view).offset(-30)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-30)
             make.centerX.equalTo(view)
         }
         takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
@@ -214,14 +216,14 @@ class CameraController: UIViewController {
             filterView.isHidden = false
             takePhotoButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_filter_icon_elected"), for: .normal)
             takePhotoButton.snp.updateConstraints({ (make) in
-                make.bottom.equalTo(view).offset(-8)
+                make.bottom.equalTo(view.snp.bottomMargin).offset(-8)
             })
         } else {
         
             filterView.isHidden = true
             takePhotoButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_takepicButton"), for: .normal)
             takePhotoButton.snp.updateConstraints({ (make) in
-                make.bottom.equalTo(view).offset(-30)
+                make.bottom.equalTo(view.snp.bottomMargin).offset(-30)
             })
         }
     }
@@ -413,7 +415,10 @@ class CameraController: UIViewController {
             
             guard let img = photo else {return}
             self.takePhotoImg = UIImageView(image: img)
-            self.takePhotoImg!.frame = self.filterVideoView!.bounds
+            let scale = img.size.width / img.size.height
+            let height = SCREENW / scale
+            
+            self.takePhotoImg!.frame = CGRect(x: 0, y: (SCREENH - height)/2, width: SCREENW, height: height)
             self.filterVideoView?.addSubview(self.takePhotoImg!)
             self.clearView.isHidden = true
             self.filterView.isHidden = true
@@ -421,6 +426,7 @@ class CameraController: UIViewController {
             self.takePhoto_Cancel.isHidden = false
             self.takePhoto_Share.isHidden = false
         }
+        
     }
     
     func takePhotoSave() {

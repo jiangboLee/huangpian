@@ -62,7 +62,12 @@ class AllPhotosController: UIViewController {
         view.addSubview(aboveView)
         aboveView.snp.makeConstraints { (make) in
             make.left.right.top.equalTo(view)
-            make.height.equalTo(view).multipliedBy(0.08)
+            if IS_Iphonex() {
+                
+                make.height.equalTo(view).multipliedBy(0.1)
+            } else {
+                make.height.equalTo(view).multipliedBy(0.08)
+            }
         }
         aboveView.layoutIfNeeded()
         
@@ -70,8 +75,15 @@ class AllPhotosController: UIViewController {
         backButton.setBackgroundImage(#imageLiteral(resourceName: "photoAlbum_cameraRoll_icon_back"), for: .normal)
         aboveView.addSubview(backButton)
         backButton.snp.makeConstraints { (make) in
-            make.height.width.equalTo(aboveView.snp.height)
-            make.left.top.equalTo(aboveView)
+            make.left.equalTo(aboveView)
+            if IS_Iphonex() {
+                
+                make.bottom.equalTo(aboveView).offset(-12)
+                make.width.height.equalTo(40)
+            } else {
+                make.bottom.equalTo(aboveView).offset(-8)
+                make.width.height.equalTo(40)
+            }
         }
         backButton.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
         
@@ -86,8 +98,14 @@ class AllPhotosController: UIViewController {
         aboveView.addSubview(chooseAlbumButton)
         chooseAlbumButton.snp.makeConstraints { (make) in
             make.width.equalTo(150)
-            make.height.equalTo(aboveView)
-            make.centerX.top.equalTo(aboveView)
+            if IS_Iphonex() {
+                
+                make.height.equalTo(aboveView).offset(-20)
+            } else {
+                make.height.equalTo(aboveView)
+            }
+            make.centerX.equalTo(aboveView).offset(15)
+            make.bottom.equalTo(aboveView)
         }
         chooseAlbumButton.addTarget(self, action: #selector(chooseAlbumButtonClick(button:)), for: .touchUpInside)
         
