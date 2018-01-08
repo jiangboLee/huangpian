@@ -10,7 +10,7 @@ import UIKit
 
 class AllPhotoesFlowLayout: UICollectionViewFlowLayout {
     
-    let margin: CGFloat = 5
+    let margin: CGFloat = 3
    
     override init() {
         super.init()

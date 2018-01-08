@@ -32,19 +32,84 @@ class CameraController: UIViewController {
     var takePhotoImg: UIImageView?
     //相册属性
     fileprivate var AlbumItems: [AlbumItem] = [] // 相册列表
+    //带缓存的图片管理对象
+    lazy var imageManager = PHCachingImageManager()
     var albumitemsCount = 0
-    lazy var imageManager = PHCachingImageManager()   //带缓存的图片管理对象
-    var imageArr: [UIImage] = []
-    var assets: [PHAsset] = []
     
+    //滤镜视图
+    lazy var filterView: FilterCollectionView = {
+        let filterView = FilterCollectionView()
+        filterView.clickItem = { (i) in
+            
+            self.chooseFilter(i)
+        }
+        self.view.addSubview(filterView)
+        filterView.snp.makeConstraints({ (make) in
+            make.right.left.equalTo(self.view)
+            make.height.equalTo(80)
+            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-80)
+        })
+        return filterView
+    }()
+    
+    var clearView: UIView!
+    //按钮
+    var closeButton: UIButton!
+    var OrientationButton: UIButton!
+    var flashButton: UIButton!
+    var mirrorButton: UIButton!
+    var allPhotoesButton: UIButton!
+    var takePhotoButton: UIButton!
+    var filterButton: UIButton!
+    //保存按钮
+    lazy var takePhoto_Save: UIButton = {
+        let takePhoto_Save = UIButton(type: .custom)
+        takePhoto_Save.setBackgroundImage(#imageLiteral(resourceName: "save_icon_save"), for: .normal)
+        self.view.addSubview(takePhoto_Save)
+        takePhoto_Save.snp.makeConstraints { (make) in
+            make.bottom.equalTo(self.view.snp.bottomMargin).offset(-12)
+            make.centerX.equalTo(self.view)
+        }
+        takePhoto_Save.addTarget(self, action: #selector(takePhotoSave), for: .touchUpInside)
+        return takePhoto_Save
+    }()
+    //取消按钮
+    lazy var takePhoto_Cancel: UIButton = {
+        let takePhoto_Cancel = UIButton(type: .custom)
+        takePhoto_Cancel.setBackgroundImage(#imageLiteral(resourceName: "save_icon_back"), for: .normal)
+        self.view.addSubview(takePhoto_Cancel)
+        takePhoto_Cancel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.takePhoto_Save)
+            make.left.equalTo(self.view).offset(18)
+        }
+        takePhoto_Cancel.addTarget(self, action: #selector(takePhotoCancel), for: .touchUpInside)
+        return takePhoto_Cancel
+    }()
+    //分享按钮
+    lazy var takePhoto_Share: UIButton = {
+        let takePhoto_Share = UIButton(type: .custom)
+        takePhoto_Share.setBackgroundImage(#imageLiteral(resourceName: "save_icon_share"), for: .normal)
+        self.view.addSubview(takePhoto_Share)
+        takePhoto_Share.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.takePhoto_Save)
+            make.right.equalTo(self.view).offset(-18)
+        }
+        takePhoto_Share.addTarget(self, action: #selector(sharePhoto), for: .touchUpInside)
+        return takePhoto_Share
+    }()
+    
+    //是否拍照还是照片处理
+    var isTakePhoto: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.blue
+        view.backgroundColor = UIColor.white
         //创建滤镜
-        let beautifulFilter = GPUImageSketchFilter()
+        let beautifulFilter = GPUImageBeautifyFilter()
         //创建预览视图
-        let filterView = GPUImageView(frame: self.view.bounds)
+        let filterView = GPUImageView(frame: UIScreen.main.bounds)
+        filterView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill
+        
         view.addSubview(filterView)
         filterVideoView = filterView
         //为摄像头添加滤镜
@@ -52,86 +117,153 @@ class CameraController: UIViewController {
         //把滤镜挂在view上
         beautifulFilter.addTarget(filterView)
         
-        //设置聚焦图片
-        setFocusImage(image: UIImage(named: "11")!)
-        
         filter = beautifulFilter
         
         //启动摄像头
-        videoCamera.startCapture();
+//        videoCamera.startCapture();
         
-        let OrientationButton = UIButton(type: .custom)
-        OrientationButton.setTitle("前后摄像头", for: .normal)
-        OrientationButton.setTitleColor(UIColor.red, for: .normal)
-        view.addSubview(OrientationButton)
+        //所有按钮的父视图
+        clearView = UIView(frame: UIScreen.main.bounds)
+        clearView.backgroundColor = UIColor.clear
+//        clearView.isUserInteractionEnabled = false
+        view.addSubview(clearView)
+        
+        //设置聚焦图片
+        setFocusImage(image: #imageLiteral(resourceName: "takepic_icon_focus"))
+        
+        //关闭
+        closeButton = UIButton(type: .custom)
+        closeButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_close"), for: .normal)
+        clearView.addSubview(closeButton)
+        closeButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.snp.topMargin).offset(15)
+            make.left.equalTo(view).offset(15)
+        }
+        closeButton.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
+        
+        //切换摄像头按钮
+        OrientationButton = UIButton(type: .custom)
+        OrientationButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_reverse"), for: .normal)
+        clearView.addSubview(OrientationButton)
         OrientationButton.snp.makeConstraints { (make) in
-            make.right.top.equalTo(view)
+            make.right.equalTo(view).offset(-22)
+            make.centerY.equalTo(closeButton)
         }
         OrientationButton.addTarget(self, action: #selector(changeOrientation), for: .touchUpInside)
         
-        let mirrorButton = UIButton(type: .custom)
-        mirrorButton.setTitle("镜像", for: .normal)
-        mirrorButton.setTitleColor(UIColor.red, for: .normal)
-        view.addSubview(mirrorButton)
+        clearView.layoutSubviews() //提前确定约束
+        //闪光灯
+        flashButton = UIButton(type: .custom)
+        flashButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_flashlight_normal"), for: .normal)
+        clearView.addSubview(flashButton)
+        let width = (OrientationButton.center.x - closeButton.center.x) / 3
+        flashButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(closeButton)
+            make.centerX.equalTo(OrientationButton).offset(-width)
+        }
+        flashButton.addTarget(self, action: #selector(flashModeChange(button:)), for: .touchUpInside)
+        
+        //镜像
+        mirrorButton = UIButton(type: .custom)
+        mirrorButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_mirror"), for: .normal)
+        clearView.addSubview(mirrorButton)
         mirrorButton.snp.makeConstraints { (make) in
-            make.top.equalTo(OrientationButton.snp.bottom)
-            make.right.equalTo(view)
+            make.centerY.equalTo(closeButton)
+            make.centerX.equalTo(closeButton).offset(width)
         }
         mirrorButton.addTarget(self, action: #selector(mirrorChange), for: .touchUpInside)
         
-        let flashButton = UIButton(type: .custom)
-        flashButton.setTitle("闪光灯", for: .normal)
-        flashButton.setTitleColor(UIColor.blue, for: .normal)
-        view.addSubview(flashButton)
-        flashButton.snp.makeConstraints { (make) in
-            make.top.equalTo(mirrorButton.snp.bottom)
-            make.right.equalTo(view)
-        }
-        flashButton.addTarget(self, action: #selector(flashModeChange), for: .touchUpInside)
-        
-        let takePhotoButton = UIButton(type: .custom)
-        takePhotoButton.setTitle("拍照", for: .normal)
-        takePhotoButton.setTitleColor(UIColor.brown, for: .normal)
-        view.addSubview(takePhotoButton)
+        //拍照
+        takePhotoButton = UIButton(type: .custom)
+        takePhotoButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_takepicButton"), for: .normal)
+        clearView.addSubview(takePhotoButton)
         takePhotoButton.snp.makeConstraints { (make) in
-            make.top.equalTo(flashButton.snp.bottom)
-            make.right.equalTo(view)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-30)
+            make.centerX.equalTo(view)
         }
         takePhotoButton.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
-        
-        let takePhoto_Save = UIButton(type: .custom)
-        takePhoto_Save.setTitle("保存", for: .normal)
-        takePhoto_Save.setTitleColor(UIColor.brown, for: .normal)
-        view.addSubview(takePhoto_Save)
-        takePhoto_Save.snp.makeConstraints { (make) in
-            make.top.equalTo(takePhotoButton.snp.bottom)
-            make.right.equalTo(view)
-        }
-        takePhoto_Save.addTarget(self, action: #selector(takePhotoSave), for: .touchUpInside)
-        
-        let takePhoto_Cancel = UIButton(type: .custom)
-        takePhoto_Cancel.setTitle("取消", for: .normal)
-        takePhoto_Cancel.setTitleColor(UIColor.brown, for: .normal)
-        view.addSubview(takePhoto_Cancel)
-        takePhoto_Cancel.snp.makeConstraints { (make) in
-            make.top.equalTo(takePhoto_Save.snp.bottom)
-            make.right.equalTo(view)
-        }
-        takePhoto_Cancel.addTarget(self, action: #selector(takePhotoCancel), for: .touchUpInside)
-        
-        
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let allPhotoesButton = UIButton(type: .custom)
-        allPhotoesButton.setTitle("相册", for: .normal)
-        allPhotoesButton.setTitleColor(UIColor.brown, for: .normal)
-        view.addSubview(allPhotoesButton)
+    
+        //相册按钮
+        allPhotoesButton = UIButton(type: .custom)
+        allPhotoesButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_photoAlbum"), for: .normal)
+        clearView.addSubview(allPhotoesButton)
         allPhotoesButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view)
-            make.right.equalTo(view)
+            make.centerY.equalTo(takePhotoButton)
+            make.right.equalTo(takePhotoButton.snp.left).offset(-76.5)
         }
         allPhotoesButton.addTarget(self, action: #selector(openAllPhotoes), for: .touchUpInside)
+        //滤镜按钮
+        filterButton = UIButton(type: .custom)
+        filterButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_filter"), for: .normal)
+        clearView.addSubview(filterButton)
+        filterButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(takePhotoButton)
+            make.left.equalTo(takePhotoButton.snp.right).offset(76.5)
+        }
+        filterButton.addTarget(self, action: #selector(openFilters(button:)), for: .touchUpInside)
+    }
+    
+    //MARK: 关闭
+    func closeClick() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: 点开滤镜
+    func openFilters(button: UIButton) {
+        button.isSelected = !button.isSelected
+        if button.isSelected {
+            
+            filterView.isHidden = false
+            takePhotoButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_filter_icon_elected"), for: .normal)
+            takePhotoButton.snp.updateConstraints({ (make) in
+                make.bottom.equalTo(view.snp.bottomMargin).offset(-8)
+            })
+        } else {
+        
+            filterView.isHidden = true
+            takePhotoButton.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_takepicButton"), for: .normal)
+            takePhotoButton.snp.updateConstraints({ (make) in
+                make.bottom.equalTo(view.snp.bottomMargin).offset(-30)
+            })
+        }
+    }
+    //选择滤镜
+    func chooseFilter(_ item: Int) {
+        
+        videoCamera.removeAllTargets()
+        switch item {
+        case 0:
+            filter = GPUImageBeautifyFilter()
+            break
+        case 1:
+            filter = GPUImageFilter()
+            break
+        case 2:
+            filter = GPUImageSepiaFilter()
+            break
+        case 3:
+            filter = GPUImageHueFilter()
+            break
+        case 4:
+            filter = GPUImageSmoothToonFilter()
+            break
+        case 5:
+            filter = GPUImageSketchFilter()
+            break
+        case 6:
+            filter = GPUImageGlassSphereFilter()
+            break
+        case 7:
+            filter = GPUImageEmbossFilter()
+            break
+        case 8:
+            filter = GPUImageTiltShiftFilter()
+            break
+        default:
+            break
+        }
+        videoCamera.addTarget(filter as! GPUImageInput!)
+        filter?.addTarget(filterVideoView)
     }
     
     //MARK: 打开相簿
@@ -139,20 +271,22 @@ class CameraController: UIViewController {
         
         let size = AllPhotoesFlowLayout().itemSize
         let itemArr = getAlbumItem()
-        let result = itemArr.first?.fetchResult
+        let result1 = itemArr.first?.fetchResult
         albumitemsCount = 0
-        getAlbumItemFetchResults(assetsFetchResults: result!, thumbnailSize: size) { (imageArr,assets) in
+        guard let result = result1 else { return  }
+        getAlbumItemFetchResults(assetsFetchResults: result, thumbnailSize: size) { (imageArr,assets) in
             
             let allPhotoesVC = AllPhotosController()
             allPhotoesVC.imageArr = imageArr
             allPhotoesVC.assets = assets
             allPhotoesVC.itemArr = itemArr
-            allPhotoesVC.imgArrAdd = {
+            allPhotoesVC.nowAlbum = result
+            allPhotoesVC.imgArrAdd = { (nowAlbum) in
                 
-                self.getAlbumItemFetchResults(assetsFetchResults: result!, thumbnailSize: size, finishedCallBack: { (imageArr, assets) in
-                    allPhotoesVC.imageArr! += imageArr
+                self.fetchImage(assetsFetchResults: nowAlbum, thumbnailSize: size) { (imageArr,assets) in
+                    allPhotoesVC.imageArr += imageArr
                     allPhotoesVC.assets? += assets
-                })
+                }
             }
             allPhotoesVC.coverImg = {
                 
@@ -161,7 +295,7 @@ class CameraController: UIViewController {
                 })
             }
             allPhotoesVC.refreshAlbum = { (albumResult) in
-                
+                self.albumitemsCount = 0
                 self.getAlbumItemFetchResults(assetsFetchResults: albumResult, thumbnailSize: size, finishedCallBack: { (imageArr, assets) in
                     allPhotoesVC.imageArr = imageArr
                     allPhotoesVC.assets = assets
@@ -179,7 +313,9 @@ class CameraController: UIViewController {
         for i in 0..<albumItems.count {
             let album = albumItems[i]
             cachingImageManager()
-            imageManager.requestImage(for: album.fetchResult[0], targetSize: CGSize(width: 56, height: 56), contentMode: .aspectFit, options: nil, resultHandler: { (image, _) in
+            let options = PHImageRequestOptions()
+            options.isSynchronous = true
+            imageManager.requestImage(for: album.fetchResult[0], targetSize: CGSize(width: 56, height: 56), contentMode: .aspectFit, options: options, resultHandler: { (image, _) in
                 
                 coverImgArr.append(image!)
                 if i == albumItems.count - 1 {
@@ -187,11 +323,9 @@ class CameraController: UIViewController {
                 }
             })
         }
-        
     }
-    
     // MARK: - 获取指定的相册缩略图列表
-    func getAlbumItemFetchResults(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ result: [UIImage], _ assets: [PHAsset]) -> ()) {
+    private func getAlbumItemFetchResults(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ result: [UIImage], _ assets: [PHAsset]) -> ()) {
         
         cachingImageManager()
         fetchImage(assetsFetchResults: assetsFetchResults, thumbnailSize: thumbnailSize) { (imageArr,assets) in
@@ -200,33 +334,44 @@ class CameraController: UIViewController {
     }
     //缓存管理
     fileprivate func cachingImageManager() {
-        
+
         imageManager.stopCachingImagesForAllAssets()
     }
     //获取图片
     fileprivate func fetchImage(assetsFetchResults: PHFetchResult<PHAsset>, thumbnailSize: CGSize, finishedCallBack: @escaping (_ imageArr: [UIImage], _ assets: [PHAsset]) -> () ) {
     
-        imageArr.removeAll()
-        assets.removeAll()
-        var a = 0
+        var imageArr: [UIImage] = []
+        var assets: [PHAsset] = []
+        var a = -1
         if albumitemsCount == assetsFetchResults.count {
             return
         }
         if albumitemsCount < assetsFetchResults.count {
             albumitemsCount += 60
         }
-        if albumitemsCount >= assetsFetchResults.count {
+        if albumitemsCount > assetsFetchResults.count {
             a = albumitemsCount - 60
+            if a < 0 {
+                a = 0
+            }
             albumitemsCount = assetsFetchResults.count
         }
-        //((a == 0) ? (albumitemsCount-60) : a)
-        for i in ((a == 0) ? (albumitemsCount-60) : a)..<albumitemsCount {
+        
+        for i in ((a == -1) ? (albumitemsCount-60) : a)..<albumitemsCount {
             let asset = assetsFetchResults[i]
-            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: nil, resultHandler: { (image, nfo) in
-                self.imageArr.append(image!)
-                self.assets.append(asset)
-                if i == self.albumitemsCount - 1 {
-                    finishedCallBack(self.imageArr, self.assets)
+            let options = PHImageRequestOptions()
+            options.isSynchronous = true
+            options.isNetworkAccessAllowed = true
+            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFit, options: options, resultHandler: { (image, nfo) in
+                imageArr.append(image!)
+                assets.append(asset)
+                //!!!一定要回到主线程刷新
+                DispatchQueue.main.async {
+                    
+                    if i == self.albumitemsCount - 1 {
+                        finishedCallBack(imageArr, assets)
+                        return
+                    }
                 }
             })
         }
@@ -270,9 +415,18 @@ class CameraController: UIViewController {
             
             guard let img = photo else {return}
             self.takePhotoImg = UIImageView(image: img)
-            self.takePhotoImg!.frame = self.filterVideoView!.bounds
+            let scale = img.size.width / img.size.height
+            let height = SCREENW / scale
+            
+            self.takePhotoImg!.frame = CGRect(x: 0, y: (SCREENH - height)/2, width: SCREENW, height: height)
             self.filterVideoView?.addSubview(self.takePhotoImg!)
+            self.clearView.isHidden = true
+            self.filterView.isHidden = true
+            self.takePhoto_Save.isHidden = false
+            self.takePhoto_Cancel.isHidden = false
+            self.takePhoto_Share.isHidden = false
         }
+        
     }
     
     func takePhotoSave() {
@@ -317,8 +471,7 @@ class CameraController: UIViewController {
                 SVProgressHUD.showSuccess(withStatus: "保存成功")
                 DispatchQueue.main.async {
                     
-                    self.takePhotoImg?.isHidden = true
-                    self.takePhotoImg?.removeFromSuperview()
+                    self.takePhotoCancel()
                 }
             } else {
                 SVProgressHUD.showError(withStatus: "保存失败")
@@ -363,20 +516,60 @@ class CameraController: UIViewController {
             return PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [createID], options: nil).firstObject!
         }
     }
-   
+    //MARK: 分享
+    func sharePhoto() {
+        
+        UMSocialShareUIConfig.shareInstance().shareTitleViewConfig.isShow = true
+        UMSocialShareUIConfig.shareInstance().shareTitleViewConfig.shareTitleViewTitleString = "分享至"
+        UMSocialShareUIConfig.shareInstance().sharePageGroupViewConfig.sharePageGroupViewPostionType = .bottom
+        UMSocialShareUIConfig.shareInstance().sharePageScrollViewConfig.shareScrollViewPageMaxColumnCountForPortraitAndBottom = 3
+        UMSocialShareUIConfig.shareInstance().shareCancelControlConfig.isShow = false
+        UMSocialShareUIConfig.shareInstance().shareContainerConfig.isShareContainerHaveGradient = false
+        
+        UMSocialUIManager.showShareMenuViewInWindow { (platformType, userInfo) in
+            
+            let messageObject = UMSocialMessageObject.init()
+            let shareObject = UMShareImageObject.init()
+            shareObject.thumbImage = UIImage(named: "AppIcon")
+            shareObject.shareImage = self.takePhotoImg?.image
+            messageObject.shareObject = shareObject
+            UMSocialManager.default().share(to: platformType, messageObject: messageObject, currentViewController: self, completion: { (data, error) in
+                
+                if error != nil {
+                
+                } else {
+                
+                }
+            })
+        }
+    }
+    
+    //MARK: 取消保存
     func takePhotoCancel() {
         
-        self.takePhotoImg?.isHidden = true
-        self.takePhotoImg?.removeFromSuperview()
+        if isTakePhoto {
+            
+            self.takePhotoImg?.isHidden = true
+            self.takePhotoImg?.removeFromSuperview()
+            self.clearView.isHidden = false
+            if self.filterButton.isSelected {
+                self.filterView.isHidden = false
+            } else {
+                self.filterView.isHidden = true
+            }
+            self.takePhoto_Save.isHidden = true
+            self.takePhoto_Cancel.isHidden = true
+            self.takePhoto_Share.isHidden = true
+        }
     }
     
     //MARK: 聚焦
     func setFocusImage(image: UIImage) {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(focus(tap:)))
-        filterVideoView?.addGestureRecognizer(tap)
+        clearView.addGestureRecognizer(tap)
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(focusDisdance(pinch:)))
-        filterVideoView?.addGestureRecognizer(pinch)
+        clearView.addGestureRecognizer(pinch)
         pinch.delegate = self
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -459,7 +652,7 @@ class CameraController: UIViewController {
     
     //MARK: 开关闪光灯
     //开关闪光灯
-    func flashModeChange() {
+    func flashModeChange(button: UIButton) {
         if flashMode == .off {
             
             if videoCamera.inputCamera.hasFlash && videoCamera.inputCamera.hasTorch {
@@ -470,6 +663,7 @@ class CameraController: UIViewController {
                     videoCamera.inputCamera.torchMode = .on
                     videoCamera.inputCamera.flashMode = .on
                     flashMode = .on
+                    button.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_flashlight_selected"), for: .normal)
                 }
                 videoCamera.inputCamera.unlockForConfiguration()
             } else {
@@ -486,6 +680,7 @@ class CameraController: UIViewController {
                     videoCamera.inputCamera.torchMode = .off
                     videoCamera.inputCamera.flashMode = .off
                     flashMode = .off
+                    button.setBackgroundImage(#imageLiteral(resourceName: "takepic_icon_flashlight_normal"), for: .normal)
                 }
                 videoCamera.inputCamera.unlockForConfiguration()
             }
@@ -513,7 +708,7 @@ class CameraController: UIViewController {
             videoCamera = GPUImageStillCamera(sessionPreset: AVCaptureSessionPresetHigh, cameraPosition: AVCaptureDevicePosition.back)
         } else if videoCamera.cameraPosition() == AVCaptureDevicePosition.back {
             
-            videoCamera = GPUImageStillCamera(sessionPreset: AVCaptureSessionPresetPhoto, cameraPosition: AVCaptureDevicePosition.front)
+            videoCamera = GPUImageStillCamera(sessionPreset: AVCaptureSessionPresetHigh, cameraPosition: AVCaptureDevicePosition.front)
         }
         videoCamera.outputImageOrientation = UIInterfaceOrientation.portrait
         //镜像
@@ -533,7 +728,19 @@ class CameraController: UIViewController {
         cachingImageManager()
         AlbumItems = []
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        videoCamera.startCapture()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        videoCamera.stopCapture()
+    }
 }
 
 extension CameraController: UIGestureRecognizerDelegate {

@@ -45,6 +45,19 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return img!
     }
+    
+    //生成圆角图片
+    func circleImage() -> UIImage {
+        
+        let imageWH = self.size.width
+        UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
+        let path = UIBezierPath.init(ovalIn: CGRect(x: 0, y: 0, width: imageWH, height: imageWH))
+        path.addClip()
+        self.draw(at: CGPoint(x: 0, y: 0))
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
+    }
 }
 
 

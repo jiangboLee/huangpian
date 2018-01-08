@@ -8,7 +8,14 @@ target 'liubai' do
   # Pods for liubai
 
  pod 'GPUImage'
- pod 'SnapKit'
+ pod 'SnapKit', '~> 3.2.0'
  pod 'SVProgressHUD'
+ pod 'UMengUShare/UI'
+ pod 'UMengUShare/Social/WeChat'
+ pod 'UMengUShare/Social/QQ'
+ pod 'UMengUShare/Social/Sina'
+ # 无IDFA版SDK
+ pod 'UMengAnalytics-NO-IDFA'
 
+# pod 'lottie-ios'
 end
