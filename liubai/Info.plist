@@ -62,7 +62,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -112,9 +112,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>使用相机</string>
+	<string>使用拍照功能需要您授权相机哦</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>请求相册</string>
+	<string>获取照片需要您授权相册哦</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
